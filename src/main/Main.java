@@ -33,6 +33,8 @@ public class Main {
 	private static JFrame frame;
 	private static Container container;
 	boolean playerLoaded = false;
+
+	private int testInt = 0;
 	
 	/*Title Screen*/
 	private static JPanel titlePanel, titleBPanel;
