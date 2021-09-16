@@ -34,7 +34,7 @@ public class Main {
 	private static Container container;
 	boolean playerLoaded = false;
 
-	private int testInt = 0;
+	private int testInt = 1;
 	
 	/*Title Screen*/
 	private static JPanel titlePanel, titleBPanel;
