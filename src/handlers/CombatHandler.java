@@ -83,11 +83,12 @@ public class CombatHandler {
             Main.updateHp(p);
             
             if(p.getHp() <= 0) {
-            	 Main.addMessage("\nYou have been defeated by: "+npc.getName()+".\nRest your soul traveller.");
+                JOptionPane.showMessageDialog(null, "You have been defeated.. Rest your soul traveller..");
             	isPlayerDead = true;
             	if(isPlayerDead = true) {
-            		 Main.addMessage("\nPlease relaunch the game if you wish to try again");
-            		System.exit(0);
+                    p.setHp(1);
+                    FileHandler.savePlayer(p);
+                    System.exit(0);
             	}
             } else {
             	 Main.addMessage("\nYou now have: "+p.getHp()+" Health left!\n");

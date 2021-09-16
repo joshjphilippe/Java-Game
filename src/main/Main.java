@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 import handlers.CombatHandler;
 import handlers.FileHandler;
 import handlers.InventoryHandler;
+import handlers.NPCHandler;
 import handlers.loaders.NPCLoader;
 import player.Player;
 
@@ -194,12 +195,13 @@ public class Main {
 		combatTestButton.setForeground(Color.BLACK);
 		combatTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*Goblin g = new Goblin();
-				CombatHandler.startCombat(p, g);*/
+				NPCHandler man = NPCLoader.spawnNPC(0);
+				CombatHandler.startCombat(p, man);
+				FileHandler.savePlayer(p);
 			}
 		});
 		
-		shoppingButton = new JButton("Test the Shop!");
+		shoppingButton = new JButton("Test the Shop! -- underconstruction (refreshes inventory atm)");
 		shoppingButton.setBackground(Color.WHITE);
 		shoppingButton.setForeground(Color.BLACK);
 		shoppingButton.addActionListener(new ActionListener() {
