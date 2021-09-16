@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
 import handlers.CombatHandler;
 import handlers.FileHandler;
 import handlers.InventoryHandler;
-import npcs.Goblin;
+import handlers.loaders.NPCLoader;
 import player.Player;
 
 /**
@@ -33,8 +33,6 @@ public class Main {
 	private static JFrame frame;
 	private static Container container;
 	boolean playerLoaded = false;
-
-	private int testInt = 1;
 	
 	/*Title Screen*/
 	private static JPanel titlePanel, titleBPanel;
@@ -62,6 +60,7 @@ public class Main {
 			public void run() {
 				try {
 					new Main();
+					NPCLoader.loadNpcs();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -195,8 +194,8 @@ public class Main {
 		combatTestButton.setForeground(Color.BLACK);
 		combatTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Goblin g = new Goblin();
-				CombatHandler.startCombat(p, g);
+				/*Goblin g = new Goblin();
+				CombatHandler.startCombat(p, g);*/
 			}
 		});
 		
