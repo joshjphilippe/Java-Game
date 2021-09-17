@@ -218,7 +218,7 @@ public class Main {
 		container.add(playerDetailPanel);
 		container.add(mainScreenActionPanel);
 		container.add(playerInventoryPanel);
-		
+
 		SwingUtilities.updateComponentTreeUI(frame);
 	}
 	
@@ -238,8 +238,5 @@ public class Main {
 		inventoryArea.setText("");
 		InventoryHandler.loadInventory(p);
 	}
-	
-
-
 
 }

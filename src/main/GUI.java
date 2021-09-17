@@ -14,6 +14,8 @@ import javax.swing.JLabel;
 /**
  * 
  * @author Joshua Jean-Philippe
+ * Unused class -- may do something with in future
+ * Keeping it for now
  *
  */
 public class GUI extends JFrame {

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import handlers.NPCHandler;
-import main.Main;
 
 /**
  * @author Joshua Jean-Philippe
@@ -38,19 +37,23 @@ public class NPCLoader {
     
     /**
 	 * Use this to spawn npc in game
-	 * @param index
-	 * @return
+	 * Using NPCHandler to read our npcs list and create an NPC based
+	 * off of it's indexed position.
+	 * @param index location of NPC in ArrayList
+	 * @return NPCHandler Object
 	 */
 	public static NPCHandler spawnNPC(int index) {
 		NPCHandler npc = npcs.get(index);
+		/**Setting the values for the NPC we requested for in index**/
         int id = npc.getId();
 		String name = npc.getName();
 		int hp = npc.getHp();
 		int atk = npc.getAtk();
 		int def = npc.getDef();
 		String desc = npc.getDesc();
-		setNpch(new NPCHandler(id, name, hp, atk, def, desc));
 
+		//This is what is actually creating the NPC object based off of the info sent to it
+		setNpch(new NPCHandler(id, name, hp, atk, def, desc));
 		return npch;
 	}
 

@@ -11,9 +11,6 @@ import player.Player;
 public class CombatHandler {
 	
 	private static boolean isNPCTurn = false;
-    private static boolean isPlayerDead = false;
-    private static boolean isNpcDead = false;
-    private static boolean isCombatWon = false;
     private static Random rand = new Random();
     static String[] combatOptions = {"Attack", "Examine"};
     
@@ -59,33 +56,32 @@ public class CombatHandler {
         int atk = rand.nextInt(p.getAtk());
         Main.addMessage("\nYou attack the: "+npc.getName()+"!");
         Main.addMessage("\nYou hit a: "+atk+"!\n");
-        delay(1);
-        int oldHp = npc.getHp();
-        int newHp = oldHp - atk;
-        npc.setHp(newHp);
-        delay(1);
+        Utils.delay(1);
+        int currentNpcHp = npc.getHp();
+        int newNpcHp = currentNpcHp - atk;
+        npc.setHp(newNpcHp);
+        Utils.delay(1);
         Main.addMessage("\nThe "+npc.getName()+" now has: "+npc.getHp()+" Health left!");
-        delay(3);
+        Utils.delay(3);
         deathCheck(p, npc);
     }
     
     private static void attackPlayer(NPCHandler npc, Player p) {
         if(p.getHp() > 0) {
-            int atk = rand.nextInt(npc.getAtk());
+            int npcAttack = rand.nextInt(npc.getAtk());
 
             Main.addMessage("\nThe "+npc.getName()+" attacks!");
-            Main.addMessage("\nThe "+npc.getName()+" hits a: "+atk+"!");
-            delay(1);
+            Main.addMessage("\nThe "+npc.getName()+" hits a: "+npcAttack+"!");
+            Utils.delay(1);
     
-            int oldHp = p.getHp();
-            int newHp = oldHp - atk;
-            p.setHp(newHp);
+            int currentPlayerHp = p.getHp();
+            int newPlayerHp = currentPlayerHp - npcAttack;
+            p.setHp(newPlayerHp);
             Main.updateHp(p);
             
             if(p.getHp() <= 0) {
                 JOptionPane.showMessageDialog(null, "You have been defeated.. Rest your soul traveller..");
-            	isPlayerDead = true;
-            	if(isPlayerDead = true) {
+            	if(true) {
                     p.setHp(1);
                     FileHandler.savePlayer(p);
                     System.exit(0);
@@ -100,27 +96,15 @@ public class CombatHandler {
     	 Main.addMessage("\nYou examine: ["+npc.getName()+"], ["+npc.getDesc()+"]!\n");
     }
     
-    public static void delay(int seconds) {
-        try {
-            TimeUnit.SECONDS.sleep(seconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-    
     public static void deathCheck(Player p, NPCHandler npc) {
         if(npc.getHp() > 0) {
-            isCombatWon = false;
-            isNpcDead = false;
             isNPCTurn = true;
             if(isNPCTurn == true) {
                 attackPlayer(npc, p);
             }
         } else {
-            isNpcDead = true;
-            isCombatWon = true;
             isNPCTurn = false;
-            if(isCombatWon = true) {
+            if(true) {
             	 Main.addMessage("\nYou have defeated the: "+npc.getName()+"!");
             }
         }
