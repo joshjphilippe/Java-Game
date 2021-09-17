@@ -34,8 +34,6 @@ public class FileHandler implements Serializable {
 	 * Catching IOException since we're handling input/output of a file
 	 * We need to "catch" any errors that may occur during this process
 	 * 
-	 * TODO:
-	 * Player Inventory Creation
 	 */
 	public static void createPlayer() {
 		String name = JOptionPane.showInputDialog("Enter Character Name:");
@@ -70,8 +68,6 @@ public class FileHandler implements Serializable {
 	 * 
 	 * Catching IOException again because we're handling input/output of files
 	 * 
-	 * TODO:
-	 * Player Inventory Loading
 	 */
 	public static void loadPlayer() {		
 		/**
@@ -107,8 +103,6 @@ public class FileHandler implements Serializable {
 	 * 
 	 * @param p = current Player object/file being used by game
 	 * 
-	 * TODO:
-	 * Save inventory!
 	 * 
 	 */
 	public static void savePlayer(Player p) {

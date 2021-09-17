@@ -41,8 +41,7 @@ public class CombatHandler {
     /**
      * Combat theme starts
      * Future plan: check agility -- faster agility goes first
-     * while playerIsDead and npcIsdead = false
-     *     Prompt options: attack, examine, run
+     *     Prompt options: attack, examine, use items
      * After every attack check npc current health
      * If health <= 0 stop combat
      * else continue combat
@@ -53,12 +52,12 @@ public class CombatHandler {
      * @param npc
      */
     private static void attackNPC(Player p, NPCHandler npc) {
-        int atk = rand.nextInt(p.getAtk());
+        int playerAtk = rand.nextInt(p.getAtk());
         Main.addMessage("\nYou attack the: "+npc.getName()+"!");
-        Main.addMessage("\nYou hit a: "+atk+"!\n");
+        Main.addMessage("\nYou hit a: "+playerAtk+"!\n");
         Utils.delay(1);
         int currentNpcHp = npc.getHp();
-        int newNpcHp = currentNpcHp - atk;
+        int newNpcHp = currentNpcHp - playerAtk;
         npc.setHp(newNpcHp);
         Utils.delay(1);
         Main.addMessage("\nThe "+npc.getName()+" now has: "+npc.getHp()+" Health left!");
