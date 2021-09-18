@@ -2,9 +2,9 @@ package handlers;
 
 public class ItemHandler {
 	
-	private int id;
+	private int id;//Probably going to delete this
 	private String itemName;
-	private boolean isCombatUseable;
+	private boolean isCombatUseable;//Probably going to delete this
 	private int price;
 	private String desc;
 	
@@ -51,7 +51,7 @@ public class ItemHandler {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "\nID: ["+this.getId()+"] Name: [" +this.getItemName()+ "], Combat Useable: ["+this.getIsCombatUseable()+"], Price: ["+this.getPrice()+"], Description: ["+this.getDesc()+"]";

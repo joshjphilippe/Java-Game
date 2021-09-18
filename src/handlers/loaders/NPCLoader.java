@@ -30,6 +30,7 @@ public class NPCLoader {
 				NPCHandler npc = new NPCHandler(Integer.parseInt(n[0]), n[1], Integer.parseInt(n[2]), Integer.parseInt(n[3]), Integer.parseInt(n[4]), n[5]);
 				npcs.add(npc);
 			}
+			System.out.println("NPCs Loaded: "+npcs.size());
 		} catch (IOException ioe) {
 			System.out.println("NPC File not found!");
 		}

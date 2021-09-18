@@ -16,16 +16,20 @@ import javax.swing.JLabel;
  * @author Joshua Jean-Philippe
  * Unused class -- may do something with in future
  * Keeping it for now
+ * 
+ * 
+ * Commented whole class out so that only Main is runnable
+ * Didnt need to do it this way but I did
  *
  */
 public class GUI extends JFrame {
 
-	private JPanel contentPane;
+/*	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
+	 * Commented this out so th
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -38,9 +42,6 @@ public class GUI extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public GUI() {
 		setResizable(false);
 		setTitle("Text Based Game - Now With GUI!");
@@ -63,6 +64,6 @@ public class GUI extends JFrame {
 		
 		JLabel lblNewLabel = new JLabel();
 		contentPane.add(lblNewLabel, BorderLayout.EAST);
-	}
+	}*/
 
 }

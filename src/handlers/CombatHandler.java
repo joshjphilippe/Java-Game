@@ -2,8 +2,10 @@ package handlers;
 
 import java.util.Random;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import handlers.loaders.ItemLoader;
 import main.Main;
 import player.Player;
 
@@ -11,7 +13,7 @@ public class CombatHandler {
 	
 	private static boolean isNPCTurn = false;
     private static Random rand = new Random();
-    static String[] combatOptions = {"Attack", "Examine"};
+    private static String[] combatOptions = {"Attack", "Use Item", "Examine"};
     
     public static void startCombat(Player p, NPCHandler npc) {
         while(npc.getHp() > 0) {
@@ -30,6 +32,9 @@ public class CombatHandler {
             		y = 11;
             		break;
             	case 1:
+                    useItem(p, npc);
+                    break;
+                case 2:
             		examineNPC(p, npc);
             		break;
             	}
@@ -103,8 +108,29 @@ public class CombatHandler {
         } else {
             isNPCTurn = false;
             if(true) {
-            	 Main.addMessage("\nYou have defeated the: "+npc.getName()+"!");
+            	Main.addMessage("\nYou have defeated the: "+npc.getName()+"!");
+                ItemUsage.minorPoisonUsed = 0;
             }
+        }
+    }
+    /**
+     * Prompt them for item name and pass on to ItemUsage
+     * TODO: Add a itemUse counter for different items..
+     * Probably split items into general categories
+     * Healing/buff Items can be used infinitely ("until hp is full/buff cap reached")
+     * NPC Damaging Items can only be used 1-2 times per player turn
+     * @param p
+     * @param npc
+     */
+    public static void useItem(Player p, NPCHandler npc) {
+        String item = JOptionPane.showInputDialog(null, "Type Item Name", "Use Item", JOptionPane.INFORMATION_MESSAGE);
+        if(InventoryHandler.inventory.containsKey(item) && InventoryHandler.inventory.get(item) >= 1) {
+            InventoryHandler.removeItem(item, 1);
+            InventoryHandler.saveInventory(p);
+            ItemUsage.useItem(p, npc, item);
+            Main.refreshInventory(p);
+        } else {
+            JOptionPane.showMessageDialog(null, "This item does not exist!", "Use Item", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

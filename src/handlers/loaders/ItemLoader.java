@@ -17,14 +17,14 @@ public class ItemLoader {
 
 	private static final String dir = "./data/items.csv";
 	public static ArrayList<ItemHandler> items = new ArrayList<ItemHandler>();
-    
-	public void loadItems() {
+
+	public static void loadItems() {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(new File(dir)));
 			String line = null;
 			while((line = br.readLine()) != null) {
 				String[] i = line.split(",");
-                //id name boolean price desc
+                //id name boolean price desc <-- most likely removing item ids and boolean
 				ItemHandler item = new ItemHandler(Integer.parseInt(i[0]), i[1], Boolean.parseBoolean(i[2]), Integer.parseInt(i[3]), i[4]);
 				items.add(item);
 			}
@@ -33,6 +33,5 @@ public class ItemLoader {
 			System.out.println("Item File not found!");
 		}
 	}
-
-    
+ 
 }

@@ -15,7 +15,6 @@ import player.Player;
 /**
  * @author: Joshua Jean-Philippe
  * Using hashmap to store player inventory in Key-Value pairs
- * Need to add item descriptions too..
  * Checks for valid items in items.txt
  */
 public class InventoryHandler {
