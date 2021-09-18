@@ -1,11 +1,5 @@
 package handlers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JDialog;
-
-import handlers.loaders.ItemLoader;
 import main.Main;
 import player.Player;
 

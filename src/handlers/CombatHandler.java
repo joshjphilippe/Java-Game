@@ -2,10 +2,8 @@ package handlers;
 
 import java.util.Random;
 
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
-import handlers.loaders.ItemLoader;
 import main.Main;
 import player.Player;
 
