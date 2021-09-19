@@ -71,7 +71,18 @@ public class Skills {
         Player p = new Player("Dummy", 10, 5, 1);
         //createSkills(p);
         loadSkills(p);
+        //saveSkills(p);
+        System.out.println(playerSkills.get(0).getSkillName());
+        System.out.println(playerSkills.get(0).getCurrentLevel());
+        System.out.println(playerSkills.get(0).getCurrentExp());
+
+        System.out.println(playerSkills.get(2).getSkillName());
+        System.out.println(playerSkills.get(2).getCurrentLevel());
+        System.out.println(playerSkills.get(2).getCurrentExp());
+
+        playerSkills.get(2).setCurrentLevel(29);
         saveSkills(p);
+
     }
     
 
@@ -85,7 +96,7 @@ public class Skills {
                 Skills skill = new Skills(i[0], Integer.parseInt(i[1]), Integer.parseInt(i[2]));
                 playerSkills.add(skill);
             }
-            System.out.println("Skills for Player ["+p.getName()+"] have been loaded.");
+            System.out.println("Skills for Player ["+p.getName()+"] have been loaded. ["+playerSkills.size()+"]");
         } catch (IOException ioe) {
             System.out.println("Cannot locate specified Player's skills file!");
         }
@@ -97,7 +108,9 @@ public class Skills {
             if(f.createNewFile()) {
                 System.out.println("Skills File created for: "+p.getName());
                 FileWriter fw = new FileWriter(f);
-                fw.write("Woodcutting,1,0");
+                fw.write("Woodcutting,1,0\n");
+                fw.write("Firemaking,1,0\n");
+                fw.write("Cooking,1,0");
                 fw.close();
                 //saveSkills(p);
             } else {
