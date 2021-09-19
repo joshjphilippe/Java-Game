@@ -1,9 +1,10 @@
-package player.skills;
+package player.skills.woodcutting;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,8 +25,20 @@ import handlers.Utils;
  * 
  * TODO:
  * Add more tree types
- * Test more EXP tables and earnings
+ * Test more EXP tables and earnings 
  * Find a way to make woodcutting more interactive maybe, it's a TBAG so..
+ * Trees will need to be constructed and spawned into the game like NPCs, CSV file
+ * Spawned Trees need to be added to a list or hard coded into areas later
+ * 
+ * Tree Constructor = Type Level Exp Success
+ * 
+ * 
+ * 
+ * Completed:
+ * Exp is now exponential (CurrentLevel + NextLevel)^2, max level is 30
+ * Added Axes, Axes provide sharpness and the sharper the Axe the easier it is
+ * to get exp
+ * Added more trees
  */
 public class Woodcutting {
 
@@ -34,16 +47,34 @@ public class Woodcutting {
     public static Map<Integer, Integer> xpPerLevel = new LinkedHashMap<>();
     public static Map<Integer, String> treeTypes = new LinkedHashMap<>();
 
-    static int lvlReq[] = {1, 5, 10};
-    static int expEarn[] = {10, 20, 30};
-    static int treeRange[] = {10, 50, 60};
-    static String trees[] = {"Normal", "Hard-Wood", "Oak"};
-    static int playerLevel = 4;
-    static int playerCurrentXp = 377;
+    static int lvlReq[] = {1, 2, 10, 15, 20};
+    static int expEarn[] = {5, 10, 15, 20, 25};
+    static int treeSuccessRange[] = {50, 40, 30, 20, 10};
+    static String trees[] = {"Normal", "Hard-Wood", "Oak", "Willow", "Maple"};
+    static int playerLevel = 11;
+    static int playerCurrentXp = 530;
+    static Axes playerAxe = Axes.MITHRIL;
     static Random rand = new Random();
 
+    enum Axes {
+        WOOD(1),
+        COPPER(2),
+        IRON(3),
+        MITHRIL(4);
 
-    public static void main(String args[]) {
+        int sharpness;
+
+        Axes(int sharpness) {
+            this.sharpness = sharpness;
+        }
+
+        public int getSharpness() {
+            return this.sharpness;
+        }
+    }
+
+
+    /*public static void main(String args[]) {
         Scanner scanner = new Scanner(System.in);
         loadXpTable();
         loadTrees();
@@ -51,6 +82,7 @@ public class Woodcutting {
         displayTable();
         System.out.println("");
         displayTrees();
+
 
                 
         System.out.println("\nYour current Woodcutting Level is: "+getCurrentLevel());
@@ -63,29 +95,82 @@ public class Woodcutting {
         System.out.print("\nWhich tree would you like to cut? 0 1 2: ");
 
         int choice = scanner.nextInt();
+
         if(treeTypes.containsKey(choice) && playerLevel >= lvlReq[choice]) {
-            System.out.println("You can cut this: "+treeTypes.get(choice)+" tree!");
+            System.out.println("You begin cutting the: "+treeTypes.get(choice)+" tree!");
             Utils.delay(2);
-            if(rand.nextInt(101) <= treeRange[choice]) {
-                int earnedExp = rand.nextInt(expEarn[choice]);
+
+
+            if(rand.nextInt(treeSuccessRange[choice] + 5 - playerAxe.getSharpness()) <= treeSuccessRange[choice]) {
+
+
+                int earnedExp = expEarn[choice];
                 System.out.println("\nYou've successfully chopped down the tree!");
                 System.out.println("You've earned: "+earnedExp+" Woodcutting Experience Points!");
                 increaseXp(earnedExp);
-                levelCheck();
-                
+                levelUpCheck();
+
+
+
+
             } else {
-                int earnedExp = rand.nextInt(expEarn[choice] - 2);
+                int earnedExp = rand.nextInt(rand.nextInt(expEarn[choice] - 1 + 1) + 1);
+                if(earnedExp <= 0) {
+                    earnedExp = 1;
+                }
                 System.out.println("\nYou've chopped down the tree, albeit clumsily, reduced experience earned!");
                 System.out.println("You've earned: "+earnedExp+" Woodcutting Experience Points!");
                 increaseXp(earnedExp);
-                levelCheck();
+                levelUpCheck();
             }
         } else {
             System.out.println("You can't cut a(n): "+treeTypes.get(choice)+" tree!");
         }
+        scanner.close();
+    }*/
 
+    public static void chopTree() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\nYour current Woodcutting Level is: "+getCurrentLevel());
+        System.out.println("Your current Woodcutting Exp is: "+getCurrentXp());
+
+        Utils.delay(1);
+        System.out.println("You enter a forest and see multiple trees");
+        System.out.println(Trees.spawned.toString());
+
+        System.out.print("\nWhich tree would you like to cut?: ");
+
+        int choice = scanner.nextInt();
+
+        if(Trees.spawned.contains(Trees.spawned.get(choice)) && playerLevel >= Trees.spawned.get(choice).getLevelReq()) {
+            System.out.println("You begin cutting the: "+Trees.spawned.get(choice).getTreeType()+" tree!");
+            Utils.delay(2);
+
+
+            if(rand.nextInt(Trees.spawned.get(choice).getSuccessNum() + 5 - playerAxe.getSharpness()) <= Trees.spawned.get(choice).getSuccessNum()) {
+
+
+                int earnedExp = expEarn[choice];
+                System.out.println("\nYou've successfully chopped down the tree!");
+                System.out.println("You've earned: "+earnedExp+" Woodcutting Experience Points!");
+                increaseXp(earnedExp);
+                levelUpCheck();
+            } else {
+                int earnedExp = rand.nextInt(rand.nextInt(expEarn[choice] - 1 + 1) + 1);
+                if(earnedExp <= 0) {
+                    earnedExp = 1;
+                }
+                System.out.println("\nYou've chopped down the tree, albeit clumsily, reduced experience earned!");
+                System.out.println("You've earned: "+earnedExp+" Woodcutting Experience Points!");
+                increaseXp(earnedExp);
+                levelUpCheck();
+            }
+        } else {
+            System.out.println("You can't cut a(n): "+treeTypes.get(choice)+" tree!");
+        }
+        scanner.close();
     }
-
+    
     public static void loadXpTable() {
         try {
             File f = new File(dir);
@@ -139,8 +224,8 @@ public class Woodcutting {
         return "\nExp until level: "+nextLevel+" is ["+difference+"]";
     }
 
-    public static void levelCheck() {
-        if(playerCurrentXp >= xpPerLevel.get(playerLevel + 1)) {
+    public static void levelUpCheck() {
+        if(playerCurrentXp > xpPerLevel.get(playerLevel + 1)) {
             int newLevel = playerLevel + 1;
             playerLevel = newLevel;
             System.out.println("\nCongratulations! You have levelled up!");
@@ -149,7 +234,7 @@ public class Woodcutting {
             System.out.println(xpTil());
         }
     }
-
+    
     public static int getCurrentLevel() {
         return playerLevel;
     }
