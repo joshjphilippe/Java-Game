@@ -21,6 +21,11 @@ import handlers.Utils;
  * Play with the playerCurrentXp number, but make sure the exp you use
  * Is for the right playerLevel number. There will never be a point where these
  * Numbers never correlate properly, so break it if you want to but dont be surprised!
+ * 
+ * TODO:
+ * Add more tree types
+ * Test more EXP tables and earnings
+ * Find a way to make woodcutting more interactive maybe, it's a TBAG so..
  */
 public class Woodcutting {
 
