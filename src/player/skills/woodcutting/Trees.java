@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import player.Skills;
+
 /**
  * @author Joshua Jean-Philippe
  * We load ALL THE TREES
@@ -25,7 +27,7 @@ public class Trees {
     private int successNum;
 
     public static void main(String args[]) {
-        Woodcutting.loadXpTable();//Will move this stuff to a general "Skills"
+        Skills.loadXpTable();//Will move this stuff to a general "Skills"
         loadTrees();
         displayTrees();
         spawnTrees();
