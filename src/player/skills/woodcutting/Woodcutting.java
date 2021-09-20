@@ -66,8 +66,8 @@ public class Woodcutting {
         System.out.println("Your current "+skillName+" Exp is: "+currentXp);
 
         Utils.delay(1);
-        System.out.println("You enter a forest and see multiple trees");
-        System.out.println(Trees.spawned.toString());
+        System.out.println("You enter a forest and see multiple trees\n");
+        Trees.displaySpawnedTrees();
 
         System.out.print("\nWhich tree would you like to cut?: ");
 
