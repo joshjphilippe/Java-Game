@@ -25,8 +25,11 @@ public class Trees {
     private int levelReq;
     private int expEarned;
     private int successNum;
+    private int size = spawned.size();
 
     public static void main(String args[]) {
+        loadTrees();
+        spawnTrees();
         displayTrees();
         System.out.println("");
         displaySpawnedTrees();
@@ -89,13 +92,13 @@ public class Trees {
 
     public static void displaySpawnedTrees() {
         for(int i = 0; i < spawned.size(); i++) {
-            System.out.println(spawned.get(i).toString());
+            System.out.println("Index: ["+i+"] "+spawned.get(i).toString());
         }
     }
 
     @Override
     public String toString() {
-        return "Tree Type: ["+this.getTreeType()+"], Level Required: ["+this.getLevelReq()+"], Exp Earned: ["+this.getExpEarned()+"], Success Number: ["+this.getSuccessNum()+"]";
-    }
+        return "\nTree Type: ["+this.getTreeType()+"], Level Required: ["+this.getLevelReq()+"], Exp Earned: ["+this.getExpEarned()+"], Success Number: ["+this.getSuccessNum()+"]";
+   }
 
 }
