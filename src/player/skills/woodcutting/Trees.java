@@ -27,14 +27,11 @@ public class Trees {
     private int successNum;
 
     public static void main(String args[]) {
-        Skills.loadXpTable();//Will move this stuff to a general "Skills"
-        loadTrees();
         displayTrees();
-        spawnTrees();
         System.out.println("");
         displaySpawnedTrees();
         System.out.println("\n\n");
-        Woodcutting.chopTree();
+        //Woodcutting.chopTree();
     }
 
     public Trees(String treeType, int levelReq, int expEarned, int successNum) {
@@ -79,7 +76,7 @@ public class Trees {
     /**
      * Testing Tree Spawning
      */
-    private static void spawnTrees() {
+    public static void spawnTrees() {
         spawned.add(0, trees.get(0));
         spawned.add(1, trees.get(2));
     }

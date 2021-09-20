@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 import handlers.Utils;
+import player.Player;
 import player.Skills;
 
 
@@ -35,16 +36,14 @@ import player.Skills;
  */
 public class Woodcutting {
 
-    static int lvlReq[] = {1, 2, 10, 15, 20};
-    static int expEarn[] = {5, 10, 15, 20, 25};
-    static int treeSuccessRange[] = {50, 40, 30, 20, 10};
-    static String trees[] = {"Normal", "Hard-Wood", "Oak", "Willow", "Maple"};
-    static int playerLevel = 11;
-    static int playerCurrentXp = 530;
+    static String skillName = Skills.playerSkills.get(0).getSkillName();
+    static int currentLevel = Skills.playerSkills.get(0).getCurrentLevel();
+    static int currentXp = Skills.playerSkills.get(0).getCurrentExp();
+
     static Axes playerAxe = Axes.MITHRIL;
     static Random rand = new Random();
 
-    enum Axes {
+    public enum Axes {
         WOOD(1),
         COPPER(2),
         IRON(3),
@@ -61,10 +60,10 @@ public class Woodcutting {
         }
     }
 
-    public static void chopTree() {
+    public static void chopTree(Player p) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("\nYour current Woodcutting Level is: "+getCurrentLevel());
-        System.out.println("Your current Woodcutting Exp is: "+getCurrentXp());
+        System.out.println("\nYour current "+skillName+" Level is: "+currentLevel);
+        System.out.println("Your current "+skillName+" Exp is: "+currentXp);
 
         Utils.delay(1);
         System.out.println("You enter a forest and see multiple trees");
@@ -74,7 +73,7 @@ public class Woodcutting {
 
         int choice = scanner.nextInt();
 
-        if(Trees.spawned.contains(Trees.spawned.get(choice)) && playerLevel >= Trees.spawned.get(choice).getLevelReq()) {
+        if(Trees.spawned.contains(Trees.spawned.get(choice)) && currentLevel >= Trees.spawned.get(choice).getLevelReq()) {
             System.out.println("You begin cutting the: "+Trees.spawned.get(choice).getTreeType()+" tree!");
             Utils.delay(2);
 
@@ -82,41 +81,25 @@ public class Woodcutting {
             if(rand.nextInt(Trees.spawned.get(choice).getSuccessNum() + 5 - playerAxe.getSharpness()) <= Trees.spawned.get(choice).getSuccessNum()) {
 
 
-                int earnedExp = expEarn[choice];
+                int earnedExp = Trees.spawned.get(choice).getExpEarned();
                 System.out.println("\nYou've successfully chopped down the tree!");
-                System.out.println("You've earned: "+earnedExp+" Woodcutting Experience Points!");
-                increaseXp(earnedExp);
-                levelUpCheck();
+                System.out.println("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
+                Skills.increaseXp(p, 0, earnedExp);
+                Skills.levelUpCheck(p, 0);
             } else {
-                int earnedExp = rand.nextInt(rand.nextInt(expEarn[choice] - 1 + 1) + 1);
+                int earnedExp = rand.nextInt(rand.nextInt(Trees.spawned.get(choice).getExpEarned() - 1 + 1) + 1);
                 if(earnedExp <= 0) {
                     earnedExp = 1;
                 }
                 System.out.println("\nYou've chopped down the tree, albeit clumsily, reduced experience earned!");
-                System.out.println("You've earned: "+earnedExp+" Woodcutting Experience Points!");
-                increaseXp(earnedExp);
-                levelUpCheck();
+                System.out.println("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
+                Skills.increaseXp(p, 0, earnedExp);
+                Skills.levelUpCheck(p, 0);
             }
         } else {
             System.out.println("You can't cut a(n): "+Trees.spawned.get(choice).getTreeType()+" tree!");
         }
         scanner.close();
-    }
-    
-    public static int getCurrentLevel() {
-        return playerLevel;
-    }
-
-    public static void increaseLevel() {
-        playerLevel += 1;
-    }
-
-    public static int getCurrentXp() {
-        return playerCurrentXp;
-    }
-    
-    public static void increaseXp(int amount) {
-        playerCurrentXp += amount;
     }
 
 

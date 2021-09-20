@@ -14,6 +14,9 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
+import player.skills.woodcutting.Trees;
+import player.skills.woodcutting.Woodcutting;
+
 /**
  * @author Joshua Jean-Philippe
  * Will hold all information pretaining to player skills
@@ -23,9 +26,9 @@ import java.util.Scanner;
 
 public class Skills {
 
-    private static final String dir = "./data/XpPerLevel.txt";
+    private static final String dir = "./data/xpTable.txt";
     private static final String skillsDir = "./data/saves/";
-    public static Map<Integer, Integer> xpPerLevel = new LinkedHashMap<>();
+    public static Map<Integer, Integer> xpTable = new LinkedHashMap<>();
     public static ArrayList<Skills> playerSkills = new ArrayList<Skills>();
 
     private String skillName;
@@ -69,20 +72,13 @@ public class Skills {
 
     public static void main(String args[]) {
         Player p = new Player("Dummy", 10, 5, 1);
+        loadXpTable();
+        Trees.loadTrees();
+        Trees.spawnTrees();
         //createSkills(p);
         loadSkills(p);
         //saveSkills(p);
-        System.out.println(playerSkills.get(0).getSkillName());
-        System.out.println(playerSkills.get(0).getCurrentLevel());
-        System.out.println(playerSkills.get(0).getCurrentExp());
-
-        System.out.println(playerSkills.get(2).getSkillName());
-        System.out.println(playerSkills.get(2).getCurrentLevel());
-        System.out.println(playerSkills.get(2).getCurrentExp());
-
-        playerSkills.get(2).setCurrentLevel(29);
-        saveSkills(p);
-
+        Woodcutting.chopTree(p);
     }
     
 
@@ -112,7 +108,6 @@ public class Skills {
                 fw.write("Firemaking,1,0\n");
                 fw.write("Cooking,1,0");
                 fw.close();
-                //saveSkills(p);
             } else {
                 System.out.println("This Skills File already exists!");
             }
@@ -146,38 +141,54 @@ public class Skills {
                 String[] kv = line.split(":");
                 int lvl = Integer.parseInt(kv[0]);
                 int exp = Integer.parseInt(kv[1]);
-                xpPerLevel.put(lvl, exp);
+                xpTable.put(lvl, exp);
             }
             br.close();
         } catch (IOException ioe) {
             System.out.println("Exp table not found!");
         }
     }
+ 
+    public static String xpTil(Player p, int skillId) {
+        int playerLevel = playerSkills.get(skillId).getCurrentLevel();
+        int playerCurrentXp = playerSkills.get(skillId).getCurrentExp();
 
-    
-/*    public static String xpTil() {
         int nextLevel = playerLevel + 1;
-        int expNeeded = xpPerLevel.get(nextLevel);
+        int expNeeded = xpTable.get(nextLevel);
         int difference = expNeeded - playerCurrentXp;
+        saveSkills(p);
+
         return "\nExp until level: "+nextLevel+" is ["+difference+"]";
     }
 
-    public static void displayTable() {
-        for (int i : xpPerLevel.keySet()) {
-            System.out.println("Level: "+i+" Exp: "+xpPerLevel.get(i));
+    public static void levelUpCheck(Player p, int skillId) {
+        String currentSkill = playerSkills.get(skillId).getSkillName();
+        int playerLevel = playerSkills.get(skillId).getCurrentLevel();
+        int playerCurrentXp = playerSkills.get(skillId).getCurrentExp(); 
+
+        if(playerCurrentXp > xpTable.get(playerLevel + 1)) {
+            playerSkills.get(skillId).setCurrentLevel(playerLevel + 1);
+            saveSkills(p);
+            playerSkills.clear();
+            loadSkills(p);
+            int playerLevelUpdated = playerSkills.get(skillId).getCurrentLevel();
+            System.out.println("\nCongratulations! You have levelled up!");
+            System.out.println(currentSkill+" level is now: "+playerLevelUpdated);
+        } else {
+            System.out.println(xpTil(p, skillId));
         }
     }
 
-    public static void levelUpCheck() {
-        if(playerCurrentXp > xpPerLevel.get(playerLevel + 1)) {
-            int newLevel = playerLevel + 1;
-            playerLevel = newLevel;
-            System.out.println("\nCongratulations! You have levelled up!");
-            System.out.println("Woodcutting level is now: "+playerLevel);
-        } else {
-            System.out.println(xpTil());
-        }
-    }*/
+    public static void increaseXp(Player p, int skillId, int amount) {
+        int playerCurrentXp = playerSkills.get(skillId).getCurrentExp();
+        playerSkills.get(skillId).setCurrentExp(playerCurrentXp + amount);
+        saveSkills(p);
+    }
 
+    public static void displayXpTable() {
+        for (int i : xpTable.keySet()) {
+            System.out.println("Level: "+i+" Exp: "+xpTable.get(i));
+        }
+    }
 
 }
