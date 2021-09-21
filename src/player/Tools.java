@@ -30,7 +30,6 @@ public class Tools {
     public static ArrayList<Tools> axesList = new ArrayList<Tools>();
     public static ArrayList<Tools> picksList = new ArrayList<Tools>();
    
-
     private String toolName;
     private int attributeValue;
     private int toolDurability;

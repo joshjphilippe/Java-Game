@@ -50,7 +50,6 @@ public class Woodcutting {
 
     static int newDura = axeDura - rand.nextInt(3 - 1 + 1) + 1;
     
-
     public static void chopTree(Player p) {
         String skillName = Skills.playerSkills.get(0).getSkillName();
         int currentLevel = Skills.playerSkills.get(0).getCurrentLevel();
