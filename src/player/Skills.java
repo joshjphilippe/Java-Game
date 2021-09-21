@@ -159,7 +159,7 @@ public class Skills {
             loadSkills(p);
             int playerLevelUpdated = playerSkills.get(skillId).getCurrentLevel();
             Main.addMessage("\nCongratulations! You have levelled up!");
-            Main.addMessage(currentSkill+" level is now: "+playerLevelUpdated);
+            Main.addMessage(currentSkill+" level is now: "+playerLevelUpdated+"\n");
         } else {
             Main.addMessage(xpTil(p, skillId));
         }

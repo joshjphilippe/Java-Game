@@ -7,6 +7,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import handlers.InventoryHandler;
 import handlers.Utils;
 import main.Main;
 import player.Player;
@@ -95,6 +96,9 @@ public class Woodcutting {
                     int earnedExp = Trees.spawned.get(choice).getExpEarned();
                     Main.addMessage("\nYou've successfully chopped down the tree!");
                     Main.addMessage("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
+                    InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(5 - 2) + 2);
+                    InventoryHandler.saveInventory(p);
+                    Main.refreshInventory(p);
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);
                     Trees.spawned.remove(choice);
@@ -105,6 +109,9 @@ public class Woodcutting {
                     }
                     Main.addMessage("\nYou've chopped down the tree, albeit clumsily, reduced experience earned!");
                     Main.addMessage("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
+                    InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(1));
+                    InventoryHandler.saveInventory(p);
+                    Main.refreshInventory(p);
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);
                     Trees.spawned.remove(choice);
