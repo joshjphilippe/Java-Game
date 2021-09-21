@@ -1,6 +1,9 @@
 package handlers;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JOptionPane;
 
 /**
  * 
@@ -21,6 +24,10 @@ public class Utils {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void messagePrompt(String message) {
+        JOptionPane.showMessageDialog(null, message);
     }
 
 }

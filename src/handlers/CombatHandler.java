@@ -56,7 +56,7 @@ public class CombatHandler {
     private static void attackNPC(Player p, NPCHandler npc) {
         int playerAtk = rand.nextInt(p.getAtk());
         Main.addMessage("\nYou attack the: "+npc.getName()+"!");
-        Main.addMessage("\nYou hit a: "+playerAtk+"!\n");
+        Main.addMessage("\nYou hit a: "+playerAtk+"!");
         Utils.delay(1);
         int currentNpcHp = npc.getHp();
         int newNpcHp = currentNpcHp - playerAtk;
@@ -71,8 +71,8 @@ public class CombatHandler {
         if(p.getHp() > 0) {
             int npcAttack = rand.nextInt(npc.getAtk());
 
-            Main.addMessage("\nThe "+npc.getName()+" attacks!");
-            Main.addMessage("\nThe "+npc.getName()+" hits a: "+npcAttack+"!");
+            Main.addMessage("The "+npc.getName()+" attacks!");
+            Main.addMessage("The "+npc.getName()+" hits a: "+npcAttack+"!");
             Utils.delay(1);
     
             int currentPlayerHp = p.getHp();
@@ -94,7 +94,7 @@ public class CombatHandler {
     }
     
     private static void examineNPC(Player p, NPCHandler npc) {
-    	 Main.addMessage("\nYou examine: ["+npc.getName()+"], ["+npc.getDesc()+"]!\n");
+    	 Main.addMessage("\nYou examine: ["+npc.getName()+"], ["+npc.getDesc()+"]!");
     }
     
     public static void deathCheck(Player p, NPCHandler npc) {

@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,6 +24,8 @@ import handlers.NPCHandler;
 import handlers.loaders.ItemLoader;
 import handlers.loaders.NPCLoader;
 import player.Player;
+import player.Skills;
+import player.skills.woodcutting.*;
 
 /**
  * 
@@ -50,7 +53,7 @@ public class Main {
 	playerAtkLabel, playerGoldLabel;
 	
 	private static JScrollPane verticalPane, inventoryPane;
-	private static JButton combatTestButton, shoppingButton;
+	private static JButton combatTestButton, shoppingButton, woodCuttingTestButton;
 	private static JTextArea console;
 	public static JTextArea inventoryArea;
 	
@@ -64,6 +67,8 @@ public class Main {
 					new Main();
 					NPCLoader.loadNpcs();
 					ItemLoader.loadItems();
+					Skills.loadXpTable();
+					Trees.loadTrees();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -82,6 +87,7 @@ public class Main {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setSize(550, 550);
 		frame.setLayout(null);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		container = frame.getContentPane();
 
@@ -148,6 +154,7 @@ public class Main {
 		console = new JTextArea();
 		console.setLineWrap(true);
 		console.setEditable(false);
+		console.setBorder(BorderFactory.createCompoundBorder(null, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		
 		verticalPane = new JScrollPane(console);
 		verticalPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -211,10 +218,23 @@ public class Main {
 				refreshInventory(p);
 			}
 		});
+
+		woodCuttingTestButton = new JButton("Test Woodcutting!");
+		woodCuttingTestButton.setBackground(Color.WHITE);
+		woodCuttingTestButton.setForeground(Color.BLACK);
+		woodCuttingTestButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for(int i = 0; i < 6; i++){
+					Trees.spawnTrees(i, 0);
+				}
+				Woodcutting.chopTree(p);
+			}
+		});
 		
 		
 		mainScreenActionPanel.add(combatTestButton);
 		mainScreenActionPanel.add(shoppingButton);
+		mainScreenActionPanel.add(woodCuttingTestButton);
 		
 		container.add(mainScreenPanel);
 		container.add(playerDetailPanel);
@@ -229,7 +249,7 @@ public class Main {
 	 * For adding text to the console
 	 */
 	public static void addMessage(String message) {
-		console.append(message);
+		console.append(message+"\n");
 	}
 	
 	public static void updateHp(Player p) {
@@ -239,6 +259,10 @@ public class Main {
 	public static void refreshInventory(Player p) {
 		inventoryArea.setText("");
 		InventoryHandler.loadInventory(p);
+	}
+
+	public static void addMessageObject(Object object) {
+		console.append(object.toString());
 	}
 
 }

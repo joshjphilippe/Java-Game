@@ -3,7 +3,12 @@ package player.skills.woodcutting;
 import java.util.Random;
 import java.util.Scanner;
 
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import handlers.Utils;
+import main.Main;
 import player.Player;
 import player.Skills;
 
@@ -36,11 +41,7 @@ import player.Skills;
  */
 public class Woodcutting {
 
-    static String skillName = Skills.playerSkills.get(0).getSkillName();
-    static int currentLevel = Skills.playerSkills.get(0).getCurrentLevel();
-    static int currentXp = Skills.playerSkills.get(0).getCurrentExp();
-
-    static Axes playerAxe = Axes.MITHRIL;
+    static Axes playerAxe = Axes.WOOD;
     static Random rand = new Random();
 
     public enum Axes {
@@ -61,45 +62,57 @@ public class Woodcutting {
     }
 
     public static void chopTree(Player p) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nYour current "+skillName+" Level is: "+currentLevel);
-        System.out.println("Your current "+skillName+" Exp is: "+currentXp);
+        String skillName = Skills.playerSkills.get(0).getSkillName();
+        int currentLevel = Skills.playerSkills.get(0).getCurrentLevel();
+        int currentXp = Skills.playerSkills.get(0).getCurrentExp();
+
+        Main.addMessage("\nYour current "+skillName+" Level is: "+currentLevel);
+        Main.addMessage("Your current "+skillName+" Exp is: "+currentXp);
 
         Utils.delay(1);
-        System.out.println("You enter a forest and see multiple trees\n");
-        Trees.displaySpawnedTrees();
+        Main.addMessage("\nYou enter a forest and see multiple trees");
+        //Main.addMessageObject(Trees.displaySpawnedTrees());
 
-        System.out.print("\nWhich tree would you like to cut?: ");
+        Main.addMessage("\nWhich tree would you like to cut?");
 
-        int choice = scanner.nextInt();
+        do {
+            int choice = JOptionPane.showOptionDialog(
+                null, 
+                null, 
+                null, 
+                JOptionPane.DEFAULT_OPTION, 
+                JOptionPane.PLAIN_MESSAGE, null, 
+                Trees.spawned.toArray(), null);
 
-        if(Trees.spawned.contains(Trees.spawned.get(choice)) && currentLevel >= Trees.spawned.get(choice).getLevelReq()) {
-            System.out.println("You begin cutting the: "+Trees.spawned.get(choice).getTreeType()+" tree!");
-            Utils.delay(2);
-
-
-            if(rand.nextInt(Trees.spawned.get(choice).getSuccessNum() + 5 - playerAxe.getSharpness()) <= Trees.spawned.get(choice).getSuccessNum()) {
-
-
-                int earnedExp = Trees.spawned.get(choice).getExpEarned();
-                System.out.println("\nYou've successfully chopped down the tree!");
-                System.out.println("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
-                Skills.increaseXp(p, 0, earnedExp);
-                Skills.levelUpCheck(p, 0);
+            if(Trees.spawned.contains(Trees.spawned.get(choice)) && currentLevel >= Trees.spawned.get(choice).getLevelReq()) {
+                Main.addMessage("You begin cutting the: "+Trees.spawned.get(choice).getTreeType()+" tree!");
+                Utils.delay(2);
+        
+        
+                if(rand.nextInt(Trees.spawned.get(choice).getSuccessNum() + 5 - playerAxe.getSharpness()) <= Trees.spawned.get(choice).getSuccessNum()) {
+        
+        
+                    int earnedExp = Trees.spawned.get(choice).getExpEarned();
+                    Main.addMessage("\nYou've successfully chopped down the tree!");
+                    Main.addMessage("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
+                    Skills.increaseXp(p, 0, earnedExp);
+                    Skills.levelUpCheck(p, 0);
+                    Trees.spawned.remove(choice);
+                } else {
+                    int earnedExp = rand.nextInt(rand.nextInt(Trees.spawned.get(choice).getExpEarned() - 1 + 1) + 1);
+                    if(earnedExp <= 0) {
+                        earnedExp = 1;
+                    }
+                    Main.addMessage("\nYou've chopped down the tree, albeit clumsily, reduced experience earned!");
+                    Main.addMessage("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
+                    Skills.increaseXp(p, 0, earnedExp);
+                    Skills.levelUpCheck(p, 0);
+                    Trees.spawned.remove(choice);
+                    }
             } else {
-                int earnedExp = rand.nextInt(rand.nextInt(Trees.spawned.get(choice).getExpEarned() - 1 + 1) + 1);
-                if(earnedExp <= 0) {
-                    earnedExp = 1;
-                }
-                System.out.println("\nYou've chopped down the tree, albeit clumsily, reduced experience earned!");
-                System.out.println("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
-                Skills.increaseXp(p, 0, earnedExp);
-                Skills.levelUpCheck(p, 0);
+                Main.addMessage("You can't cut a(n): "+Trees.spawned.get(choice).getTreeType()+" tree!");
             }
-        } else {
-            System.out.println("You can't cut a(n): "+Trees.spawned.get(choice).getTreeType()+" tree!");
-        }
-        scanner.close();
+        } while(!Trees.spawned.isEmpty());
     }
 
 

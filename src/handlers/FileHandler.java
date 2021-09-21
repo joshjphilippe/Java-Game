@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 import main.Main;
 import player.Player;
+import player.Skills;
 
 /**
  * 
@@ -42,6 +43,7 @@ public class FileHandler implements Serializable {
 		} else {
 			p.setName(name);
 			InventoryHandler.createInventory(p);
+			Skills.createSkills(p);
 			try {
 				FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
 				ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
@@ -83,9 +85,10 @@ public class FileHandler implements Serializable {
 			p = (Player) ois.readObject();//This is going to take our dummy player object and read the data from our ObjectInputStream and create the player from the player constructor
 			ois.close();//Close ois since we're done loading player
 			Main.mainScreen(p);
-			Main.addMessage("\nPlayer: ["+ p.getName() +"] has been loaded!\nNow Displaying Player Information..\n");
+			Main.addMessage("Player: ["+ p.getName() +"] has been loaded!\nNow Displaying Player Information..\n");
 			Main.addMessage(p.getStats()+"\n\n");
 			InventoryHandler.loadInventory(p);
+			Skills.loadSkills(p);
 		} catch(IOException | ClassNotFoundException ioe) {
 			System.out.println("Error loading player, improper name? Save directory missing?");
 		}
@@ -122,6 +125,7 @@ public class FileHandler implements Serializable {
 		x.setGold(pGold);
 		
 		InventoryHandler.saveInventory(p);
+		Skills.saveSkills(p);
 		
 		System.out.println("\nSaving Player's Information..");
 		Utils.delay(1);

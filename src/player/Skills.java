@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
+import main.Main;
 import player.skills.woodcutting.Trees;
 import player.skills.woodcutting.Woodcutting;
 
@@ -69,19 +70,6 @@ public class Skills {
         return getSkillName()+","+getCurrentLevel()+","+getCurrentExp();
     }
 
-
-    public static void main(String args[]) {
-        Player p = new Player("Dummy", 10, 5, 1);
-        loadXpTable();
-        Trees.loadTrees();
-        Trees.spawnTrees();
-        //createSkills(p);
-        loadSkills(p);
-        //saveSkills(p);
-        Woodcutting.chopTree(p);
-    }
-    
-
     public static void loadSkills(Player p) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(new File(skillsDir+p.getName()+"_skills.csv")));
@@ -105,8 +93,6 @@ public class Skills {
                 System.out.println("Skills File created for: "+p.getName());
                 FileWriter fw = new FileWriter(f);
                 fw.write("Woodcutting,1,0\n");
-                fw.write("Firemaking,1,0\n");
-                fw.write("Cooking,1,0");
                 fw.close();
             } else {
                 System.out.println("This Skills File already exists!");
@@ -172,17 +158,23 @@ public class Skills {
             playerSkills.clear();
             loadSkills(p);
             int playerLevelUpdated = playerSkills.get(skillId).getCurrentLevel();
-            System.out.println("\nCongratulations! You have levelled up!");
-            System.out.println(currentSkill+" level is now: "+playerLevelUpdated);
+            Main.addMessage("\nCongratulations! You have levelled up!");
+            Main.addMessage(currentSkill+" level is now: "+playerLevelUpdated);
         } else {
-            System.out.println(xpTil(p, skillId));
+            Main.addMessage(xpTil(p, skillId));
         }
     }
 
     public static void increaseXp(Player p, int skillId, int amount) {
         int playerCurrentXp = playerSkills.get(skillId).getCurrentExp();
         playerSkills.get(skillId).setCurrentExp(playerCurrentXp + amount);
+        refreshSkills(p);
+    }
+
+    public static void refreshSkills(Player p) {
         saveSkills(p);
+        playerSkills.clear();
+        loadSkills(p);
     }
 
     public static void displayXpTable() {

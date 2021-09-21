@@ -25,17 +25,6 @@ public class Trees {
     private int levelReq;
     private int expEarned;
     private int successNum;
-    private int size = spawned.size();
-
-    public static void main(String args[]) {
-        loadTrees();
-        spawnTrees();
-        displayTrees();
-        System.out.println("");
-        displaySpawnedTrees();
-        System.out.println("\n\n");
-        //Woodcutting.chopTree();
-    }
 
     public Trees(String treeType, int levelReq, int expEarned, int successNum) {
         this.treeType = treeType;
@@ -79,9 +68,8 @@ public class Trees {
     /**
      * Testing Tree Spawning
      */
-    public static void spawnTrees() {
-        spawned.add(0, trees.get(0));
-        spawned.add(1, trees.get(2));
+    public static void spawnTrees(int pos, int treeType) {
+        spawned.add(pos, trees.get(treeType));
     }
 
     private static void displayTrees() {
