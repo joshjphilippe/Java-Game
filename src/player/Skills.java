@@ -1,22 +1,15 @@
 package player;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
 
 import main.Main;
-import player.skills.woodcutting.Trees;
-import player.skills.woodcutting.Woodcutting;
 
 /**
  * @author Joshua Jean-Philippe

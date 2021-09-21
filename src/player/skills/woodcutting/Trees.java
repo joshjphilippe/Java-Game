@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import player.Skills;
-
 /**
  * @author Joshua Jean-Philippe
  * We load ALL THE TREES

@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import main.Main;
 import player.Player;
 import player.Skills;
+import player.Tools;
 
 /**
  * 
@@ -44,6 +45,7 @@ public class FileHandler implements Serializable {
 			p.setName(name);
 			InventoryHandler.createInventory(p);
 			Skills.createSkills(p);
+			Tools.createToolBelt(p);
 			try {
 				FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
 				ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
@@ -89,15 +91,14 @@ public class FileHandler implements Serializable {
 			Main.addMessage(p.getStats()+"\n\n");
 			InventoryHandler.loadInventory(p);
 			Skills.loadSkills(p);
+			Tools.loadToolBelt(p);
 		} catch(IOException | ClassNotFoundException ioe) {
 			System.out.println("Error loading player, improper name? Save directory missing?");
 		}
 	}
 	
 	/**
-	 * Create another dummy player object
 	 * Get current player information
-	 * Populate the dummy object with our current players information
 	 * Save/Output the file :)
 	 * 
 	 * Current Player params: name hp atk gold
@@ -109,24 +110,13 @@ public class FileHandler implements Serializable {
 	 * 
 	 */
 	public static void savePlayer(Player p) {
-		Player x = new Player("save", 0, 0, 0);
-		
 		System.out.println("\nRetrieving Player's Information..");
 		Utils.delay(1);
 		
-		String pName = p.getName();
-		int pHp = p.getHp();
-		int pAtk = p.getAtk();
-		int pGold = p.getGold();
-		
-		x.setName(pName);
-		x.setHp(pHp);
-		x.setAtk(pAtk);
-		x.setGold(pGold);
-		
 		InventoryHandler.saveInventory(p);
 		Skills.saveSkills(p);
-		
+		Tools.saveToolBelt(p);
+
 		System.out.println("\nSaving Player's Information..");
 		Utils.delay(1);
 		

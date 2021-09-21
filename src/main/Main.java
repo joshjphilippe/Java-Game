@@ -25,6 +25,7 @@ import handlers.loaders.ItemLoader;
 import handlers.loaders.NPCLoader;
 import player.Player;
 import player.Skills;
+import player.Tools;
 import player.skills.woodcutting.*;
 
 /**
@@ -69,6 +70,7 @@ public class Main {
 					ItemLoader.loadItems();
 					Skills.loadXpTable();
 					Trees.loadTrees();
+					Tools.loadAllTools();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

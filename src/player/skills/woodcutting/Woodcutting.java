@@ -1,10 +1,7 @@
 package player.skills.woodcutting;
 
 import java.util.Random;
-import java.util.Scanner;
 
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import handlers.InventoryHandler;
@@ -12,6 +9,7 @@ import handlers.Utils;
 import main.Main;
 import player.Player;
 import player.Skills;
+import player.Tools;
 
 
 /**
@@ -42,25 +40,13 @@ import player.Skills;
  */
 public class Woodcutting {
 
-    static Axes playerAxe = Axes.WOOD;
     static Random rand = new Random();
 
-    public enum Axes {
-        WOOD(1),
-        COPPER(2),
-        IRON(3),
-        MITHRIL(4);
+    static String playerAxe = Tools.playerToolBelt.get(0).getToolName();
+    static int axeAttri = Tools.playerToolBelt.get(0).getAttributeValue();
+    static int axeDura = Tools.playerToolBelt.get(0).getToolDurability();
 
-        int sharpness;
-
-        Axes(int sharpness) {
-            this.sharpness = sharpness;
-        }
-
-        public int getSharpness() {
-            return this.sharpness;
-        }
-    }
+    
 
     public static void chopTree(Player p) {
         String skillName = Skills.playerSkills.get(0).getSkillName();
@@ -86,13 +72,12 @@ public class Woodcutting {
                 Trees.spawned.toArray(), null);
 
             if(Trees.spawned.contains(Trees.spawned.get(choice)) && currentLevel >= Trees.spawned.get(choice).getLevelReq()) {
-                Main.addMessage("You begin cutting the: "+Trees.spawned.get(choice).getTreeType()+" tree!");
+                Main.addMessage("You begin cutting the: ["+Trees.spawned.get(choice).getTreeType()+"] tree with your ["+playerAxe+"]");
                 Utils.delay(2);
         
         
-                if(rand.nextInt(Trees.spawned.get(choice).getSuccessNum() + 5 - playerAxe.getSharpness()) <= Trees.spawned.get(choice).getSuccessNum()) {
-        
-        
+                if(rand.nextInt(Trees.spawned.get(choice).getSuccessNum() + 5 - axeAttri) <= Trees.spawned.get(choice).getSuccessNum()) {
+
                     int earnedExp = Trees.spawned.get(choice).getExpEarned();
                     Main.addMessage("\nYou've successfully chopped down the tree!");
                     Main.addMessage("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
