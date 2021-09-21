@@ -42,10 +42,13 @@ public class Woodcutting {
 
     static Random rand = new Random();
 
+    Tools t;
+
     static String playerAxe = Tools.playerToolBelt.get(0).getToolName();
     static int axeAttri = Tools.playerToolBelt.get(0).getAttributeValue();
     static int axeDura = Tools.playerToolBelt.get(0).getToolDurability();
 
+    static int newDura = axeDura - rand.nextInt(3 - 1 + 1) + 1;
     
 
     public static void chopTree(Player p) {
@@ -79,14 +82,19 @@ public class Woodcutting {
                 if(rand.nextInt(Trees.spawned.get(choice).getSuccessNum() + 5 - axeAttri) <= Trees.spawned.get(choice).getSuccessNum()) {
 
                     int earnedExp = Trees.spawned.get(choice).getExpEarned();
+                    
                     Main.addMessage("\nYou've successfully chopped down the tree!");
                     Main.addMessage("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
+                    
+                    
+                    
                     InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(5 - 2) + 2);
                     InventoryHandler.saveInventory(p);
                     Main.refreshInventory(p);
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);
                     Trees.spawned.remove(choice);
+                    
                 } else {
                     int earnedExp = rand.nextInt(rand.nextInt(Trees.spawned.get(choice).getExpEarned() - 1 + 1) + 1);
                     if(earnedExp <= 0) {

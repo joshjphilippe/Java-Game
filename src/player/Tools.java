@@ -41,28 +41,12 @@ public class Tools {
         this.toolDurability = toolDurability;
     }
 
-    public static void main(String args[]) {
-        Player p = new Player("Dummy", 10, 1, 1);
-        loadAllTools();
-        loadToolBelt(p);
-        replaceAxe(0, 2);
-        saveToolBelt(p);
-    }
-
     public String getToolName() {
         return toolName;
     }
 
-    public void setToolName(String toolName) {
-        this.toolName = toolName;
-    }
-
     public int getAttributeValue() {
         return attributeValue;
-    }
-
-    public void setAttributeValue(int attributeValue) {
-        this.attributeValue = attributeValue;
     }
 
     public int getToolDurability() {
@@ -76,6 +60,16 @@ public class Tools {
     @Override
     public String toString() {
         return getToolName()+","+getAttributeValue()+","+getToolDurability();
+    }
+
+    public static void replaceAxe(int toolPosition, int newToolLoc) {
+        playerToolBelt.remove(toolPosition);
+        playerToolBelt.add(toolPosition, Tools.axesList.get(newToolLoc));
+    }
+
+    public static void replacePick(int toolPosition, int newToolLoc) {
+        playerToolBelt.remove(toolPosition);
+        playerToolBelt.add(toolPosition, Tools.picksList.get(newToolLoc));
     }
 
     public static void loadToolBelt(Player p) {
@@ -146,12 +140,6 @@ public class Tools {
 		} catch (IOException ioe) {
 			System.out.println("Pickaxes File not found!");
 		}
-    }
-
-    public static void replaceAxe(int toolPosition, int newToolLoc) {
-        //spawned.add(pos, trees.get(treeType));
-        playerToolBelt.remove(toolPosition);
-        playerToolBelt.add(toolPosition, Tools.axesList.get(newToolLoc));
     }
 
     public static void saveToolBelt(Player p) {
