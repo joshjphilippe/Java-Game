@@ -128,6 +128,7 @@ public class Main {
 		exitButton = new JButton("Exit Game");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
 				System.exit(0);
 			}
 		});
