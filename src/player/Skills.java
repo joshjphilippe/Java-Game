@@ -176,4 +176,10 @@ public class Skills {
         }
     }
 
+    public static void displaySkills() {
+        for(int i = 0; i < playerSkills.size(); i++) {
+            Main.addMessage(playerSkills.get(i).toString());
+        }
+    }
+
 }

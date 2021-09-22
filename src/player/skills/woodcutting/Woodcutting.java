@@ -40,13 +40,10 @@ import player.Tools;
  */
 public class Woodcutting {
 
-    static Random rand = new Random();
+    private static Random rand = new Random();
 
-    Tools t;
-
-    static String playerAxe = Tools.playerToolBelt.get(0).getToolName();
-    static int axeAttri = Tools.playerToolBelt.get(0).getAttributeValue();
-    static int axeDura = Tools.playerToolBelt.get(0).getToolDurability();
+    private static String playerAxe = Tools.playerToolBelt.get(0).getToolName();
+    private static int axeAttri = Tools.playerToolBelt.get(0).getAttributeValue();
     
     public static void chopTree(Player p) {
         String skillName = Skills.playerSkills.get(0).getSkillName();
@@ -63,6 +60,10 @@ public class Woodcutting {
         Main.addMessage("\nWhich tree would you like to cut?");
 
         do {
+            int axeDura = Tools.playerToolBelt.get(0).getToolDurability();
+            int goodDamage = axeDura - (rand.nextInt(3 - 1 + 1) + 1);
+            int badDamage = axeDura - (rand.nextInt(5 - 1 + 1) + 1);
+
             int choice = JOptionPane.showOptionDialog(
                 null, 
                 null, 
@@ -71,36 +72,51 @@ public class Woodcutting {
                 JOptionPane.PLAIN_MESSAGE, null, 
                 Trees.spawned.toArray(), null);
 
-            if(Trees.spawned.contains(Trees.spawned.get(choice)) && currentLevel >= Trees.spawned.get(choice).getLevelReq()) {
+            if(Trees.spawned.contains(Trees.spawned.get(choice)) && currentLevel >= Trees.spawned.get(choice).getLevelReq() && axeDura > 0) {
                 Main.addMessage("You begin cutting the: ["+Trees.spawned.get(choice).getTreeType()+"] tree with your ["+playerAxe+"]");
                 Utils.delay(2);
 
                 if(rand.nextInt(Trees.spawned.get(choice).getSuccessNum() + 5 - axeAttri) <= Trees.spawned.get(choice).getSuccessNum()) {
                     int earnedExp = Trees.spawned.get(choice).getExpEarned();
-                    Main.addMessage("\nYou've successfully chopped down the tree!");
+                    Main.addMessage("\nYou've successfully chopped down the tree!\nAxe Durability is now: ["+goodDamage+"]\n");
                     Main.addMessage("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
+
+                    /**Inventory */
                     InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(5 - 2) + 2);
                     InventoryHandler.saveInventory(p);
                     Main.refreshInventory(p);
+                    /**Skills */
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);
+
+                    /**Woodcutting */
                     Trees.spawned.remove(choice);
+                    Tools.playerToolBelt.get(0).setToolDurability(badDamage);
+                    Tools.refreshToolBelt(p);
                 } else {
                     int earnedExp = rand.nextInt(rand.nextInt(Trees.spawned.get(choice).getExpEarned() - 1 + 1) + 1);
                     if(earnedExp <= 0) {
                         earnedExp = 1;
                     }
-                    Main.addMessage("\nYou've chopped down the tree, albeit clumsily, reduced experience earned!");
+                    Main.addMessage("\nYou've chopped down the tree, albeit clumsily, reduced experience earned!\nAxe Durability is now: ["+badDamage+"]\n");
                     Main.addMessage("You've earned: "+earnedExp+" "+skillName+" Experience Points!");
-                    InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(1));
+
+                    /**Inventory */
+                    InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(5 - 2) + 2);
                     InventoryHandler.saveInventory(p);
                     Main.refreshInventory(p);
+                    /**Skills */
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);
+
+                    /**Woodcutting */
                     Trees.spawned.remove(choice);
+                    Tools.playerToolBelt.get(0).setToolDurability(badDamage);
+                    Tools.refreshToolBelt(p);
                     }
             } else {
-                Main.addMessage("You can't cut a(n): "+Trees.spawned.get(choice).getTreeType()+" tree!");
+                Main.addMessage("You can't cut a(n): "+Trees.spawned.get(choice).getTreeType()+" tree! Skill is too low or your Axe is broken!");
+                break;
             }
         } while(!Trees.spawned.isEmpty());
     }

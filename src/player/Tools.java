@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import main.Main;
+
 /**
  * @author Joshua Jean-Philippe
  * Handle everything involving the Players Toolbelt and tools
@@ -154,6 +156,18 @@ public class Tools {
             fw.close();
         } catch (IOException ioe) {
             System.out.println("Cannot find Player's Toolbelt file!");
+        }
+    }
+
+    public static void refreshToolBelt(Player p) {
+        saveToolBelt(p);
+        playerToolBelt.clear();
+        loadToolBelt(p);
+    }
+
+    public static void displayToolbelt() {
+        for(int i = 0; i < playerToolBelt.size(); i++) {
+            Main.addMessage(playerToolBelt.get(i).toString());
         }
     }
 

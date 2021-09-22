@@ -26,7 +26,8 @@ import handlers.loaders.NPCLoader;
 import player.Player;
 import player.Skills;
 import player.Tools;
-import player.skills.woodcutting.*;
+import player.skills.woodcutting.Trees;
+import player.skills.woodcutting.Woodcutting;
 
 /**
  * 
@@ -48,13 +49,13 @@ public class Main {
 
 	/*Main Screen*/
 	private static JPanel mainScreenPanel, playerDetailPanel, 
-	playerInventoryPanel, mainScreenActionPanel;
+	playerInventoryPanel, mainScreenActionPanel, subPlayerDetailPanel;
 	
 	private static JLabel playerNameLabel, playerHpLabel, 
 	playerAtkLabel, playerGoldLabel;
 	
 	private static JScrollPane verticalPane, inventoryPane;
-	private static JButton combatTestButton, shoppingButton, woodCuttingTestButton;
+	private static JButton combatTestButton, shoppingButton, woodCuttingTestButton, displaySkillsButton, displayToolBeltButton;
 	private static JTextArea console;
 	public static JTextArea inventoryArea;
 	
@@ -184,8 +185,11 @@ public class Main {
 		
 		playerInventoryPanel = new JPanel();
 		playerInventoryPanel.setBounds(410, 150, 115, 250);
-		playerInventoryPanel.setBackground(Color.BLUE);
 		playerInventoryPanel.setLayout(new GridLayout(1, 1));
+
+		subPlayerDetailPanel = new JPanel();
+		subPlayerDetailPanel.setBounds(410, 403, 115, 100);
+		subPlayerDetailPanel.setLayout(new GridLayout(4, 1));
 		
 		inventoryArea = new JTextArea();
 		inventoryArea.setLineWrap(true);
@@ -232,16 +236,44 @@ public class Main {
 				Woodcutting.chopTree(p);
 			}
 		});
+
+		displaySkillsButton = new JButton("Skills");
+		displaySkillsButton.setBackground(Color.WHITE);
+		displaySkillsButton.setForeground(Color.BLACK);
+		displaySkillsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main.addMessage("\n\n=======================");
+				Main.addMessage("Skill - Level - Exp");
+				Skills.displaySkills();
+				Main.addMessage("=======================\n\n");
+			}
+		});
+
+		displayToolBeltButton = new JButton("Toolbelt");
+		displayToolBeltButton.setBackground(Color.WHITE);
+		displayToolBeltButton.setForeground(Color.BLACK);
+		displayToolBeltButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main.addMessage("\n\n=======================");
+				Main.addMessage("Tool - Attribute Value - Durability");
+				Tools.displayToolbelt();
+				Main.addMessage("=======================\n\n");
+			}
+		});
 		
 		
 		mainScreenActionPanel.add(combatTestButton);
 		mainScreenActionPanel.add(shoppingButton);
 		mainScreenActionPanel.add(woodCuttingTestButton);
+
+		subPlayerDetailPanel.add(displaySkillsButton);
+		subPlayerDetailPanel.add(displayToolBeltButton);
 		
 		container.add(mainScreenPanel);
 		container.add(playerDetailPanel);
 		container.add(mainScreenActionPanel);
 		container.add(playerInventoryPanel);
+		container.add(subPlayerDetailPanel);
 
 		SwingUtilities.updateComponentTreeUI(frame);
 	}
