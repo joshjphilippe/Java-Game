@@ -84,7 +84,7 @@ public class Trees {
 
     @Override
     public String toString() {
-        return "\nTree Type: ["+this.getTreeType()+"], Level Required: ["+this.getLevelReq()+"], Exp Earned: ["+this.getExpEarned()+"], Success Number: ["+this.getSuccessNum()+"]";
+        return "\nTree: ["+this.getTreeType()+"], Level: ["+this.getLevelReq()+"], Exp: ["+this.getExpEarned()+"], Roll: ["+this.getSuccessNum()+"]";
    }
 
 }

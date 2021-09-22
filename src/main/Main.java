@@ -55,7 +55,7 @@ public class Main {
 	playerAtkLabel, playerGoldLabel;
 	
 	private static JScrollPane verticalPane, inventoryPane;
-	private static JButton combatTestButton, shoppingButton, woodCuttingTestButton, displaySkillsButton, displayToolBeltButton;
+	private static JButton combatTestButton, shoppingButton, woodCuttingTestButton, displaySkillsButton, displayToolBeltButton, safeExitButton;
 	private static JTextArea console;
 	public static JTextArea inventoryArea;
 	
@@ -261,6 +261,17 @@ public class Main {
 				Main.addMessage("=======================\n\n");
 			}
 		});
+
+		safeExitButton = new JButton("Safe Exit");
+		safeExitButton.setBackground(Color.WHITE);
+		safeExitButton.setForeground(Color.BLACK);
+		safeExitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FileHandler.savePlayer(p);
+				frame.dispose();
+				System.exit(0);
+			}
+		});
 		
 		
 		mainScreenActionPanel.add(combatTestButton);
@@ -269,6 +280,7 @@ public class Main {
 
 		subPlayerDetailPanel.add(displaySkillsButton);
 		subPlayerDetailPanel.add(displayToolBeltButton);
+		subPlayerDetailPanel.add(safeExitButton);
 		
 		container.add(mainScreenPanel);
 		container.add(playerDetailPanel);
