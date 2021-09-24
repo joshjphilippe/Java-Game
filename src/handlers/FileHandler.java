@@ -26,7 +26,7 @@ public class FileHandler implements Serializable {
 	private final static String savedir = "./data/saves/";
 	private static Player p = new Player("null", 10, 5, 10);
 
-	private static String[] badValues = {"  ", "   ", "    ", "     ", "      ", "       ", "        ", "         ", "          ", "           ", "            ", "             ", "              ", "               ", "                ", "!", "@", "#", "$", "%", "^", "&", "*", "(" ,")", "-", "_", "=", "+", "\"", "\'", "<", ",", ".", ">", "/", "?", ":", ";", "[", "]", "{", "}", "|", "\\"};
+	private static String[] badValues = {"  ", "   ", "    ", "     ", "      ", "       ", "        ", "         ", "          ", "           ", "            ", "             ", "              ", "               ", "                ", "!", "@", "#", "$", "%", "^", "&", "*", "(" ,")", "-", "_", "=", "+", "\"", "\'", "<", ",", ".", ">", "/", "?", ":", ";", "[", "]", "{", "}", "|", "\\", "`", "~"};
 
 	public static boolean stringContainsBadValues(String string, String[] check) {
 		for(int i = 0; i < badValues.length; i++) {
