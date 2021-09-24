@@ -54,22 +54,26 @@ public class FileHandler implements Serializable {
 			Utils.messagePrompt("You entered invalid characters!");
 		} else {
 			if(name.isEmpty()) {
-				System.out.println("Null entry\t\tNo File Created");
+				Utils.messagePrompt("Null entry\t\tNo File Created");
 			} else {
-				p.setName(name);
-				InventoryHandler.createInventory(p);
-				Skills.createSkills(p);
-				Tools.createToolBelt(p);
-				try {
-					FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
-					ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
-					objOut.writeObject(p);
-					objOut.close();//Closing the object stream since we don't need it anymore
-					System.out.println("Player: "+ p.getName() + ", has been created.");
-				} catch(IOException ioe) {
-					System.out.println("There was an error in creating player file. \n"
-							+ "Check file path for possible issue!");
-				}			
+				if(name.length() > 16) {
+					Utils.messagePrompt("Name too long!");
+				} else {
+					p.setName(name);
+					InventoryHandler.createInventory(p);
+					Skills.createSkills(p);
+					Tools.createToolBelt(p);
+					try {
+						FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
+						ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
+						objOut.writeObject(p);
+						objOut.close();//Closing the object stream since we don't need it anymore
+						System.out.println("Player: "+ p.getName() + ", has been created.");
+					} catch(IOException ioe) {
+						System.out.println("There was an error in creating player file. \n"
+								+ "Check file path for possible issue!");
+					}			
+				}
 			}
 		}
 	}
