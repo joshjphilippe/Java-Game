@@ -26,6 +26,17 @@ public class FileHandler implements Serializable {
 	private final static String savedir = "./data/saves/";
 	private static Player p = new Player("null", 10, 5, 10);
 
+	private static String[] badValues = {"!", "@", "#", "$", "%", "^", "&", "*", "(" ,")", "-", "_", "=", "+", "\"", "\'", "<", ",", ".", ">", "/", "?", ":", ";", "[", "]", "{", "}", "|", "\\"};
+
+	public static boolean stringContainsBadValues(String string, String[] check) {
+		for(int i = 0; i < badValues.length; i++) {
+			if(string.contains(badValues[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Create dummy player object
 	 * Overwrite the name with desired character name
@@ -39,25 +50,28 @@ public class FileHandler implements Serializable {
 	 */
 	public static void createPlayer() {
 		String name = JOptionPane.showInputDialog("Enter Character Name:");
-		if(name.isEmpty()) {
-			System.out.println("Null entry\t\tNo File Created");
+		if(stringContainsBadValues(name, badValues)) {
+			Utils.messagePrompt("You entered invalid characters!");
 		} else {
-			p.setName(name);
-			InventoryHandler.createInventory(p);
-			Skills.createSkills(p);
-			Tools.createToolBelt(p);
-			try {
-				FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
-				ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
-				objOut.writeObject(p);
-				objOut.close();//Closing the object stream since we don't need it anymore
-				System.out.println("Player: "+ p.getName() + ", has been created.");
-			} catch(IOException ioe) {
-				System.out.println("There was an error in creating player file. \n"
-						+ "Check file path for possible issue!");
-			}			
+			if(name.isEmpty()) {
+				System.out.println("Null entry\t\tNo File Created");
+			} else {
+				p.setName(name);
+				InventoryHandler.createInventory(p);
+				Skills.createSkills(p);
+				Tools.createToolBelt(p);
+				try {
+					FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
+					ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
+					objOut.writeObject(p);
+					objOut.close();//Closing the object stream since we don't need it anymore
+					System.out.println("Player: "+ p.getName() + ", has been created.");
+				} catch(IOException ioe) {
+					System.out.println("There was an error in creating player file. \n"
+							+ "Check file path for possible issue!");
+				}			
+			}
 		}
-
 	}
 
 	/**
