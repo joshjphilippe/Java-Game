@@ -26,7 +26,7 @@ public class FileHandler implements Serializable {
 	private final static String savedir = "./data/saves/";
 	private static Player p = new Player("null", 10, 5, 10);
 
-	private static String[] badValues = {"!", "@", "#", "$", "%", "^", "&", "*", "(" ,")", "-", "_", "=", "+", "\"", "\'", "<", ",", ".", ">", "/", "?", ":", ";", "[", "]", "{", "}", "|", "\\"};
+	private static String[] badValues = {"  ", "   ", "    ", "     ", "      ", "       ", "        ", "         ", "          ", "           ", "            ", "             ", "              ", "               ", "                ", "!", "@", "#", "$", "%", "^", "&", "*", "(" ,")", "-", "_", "=", "+", "\"", "\'", "<", ",", ".", ">", "/", "?", ":", ";", "[", "]", "{", "}", "|", "\\"};
 
 	public static boolean stringContainsBadValues(String string, String[] check) {
 		for(int i = 0; i < badValues.length; i++) {
@@ -52,31 +52,29 @@ public class FileHandler implements Serializable {
 		String name = JOptionPane.showInputDialog("Enter Character Name:");
 		if(stringContainsBadValues(name, badValues)) {
 			Utils.messagePrompt("You entered invalid characters!");
-		} else {
-			if(name.isEmpty()) {
+		} else if(name.isEmpty()) {
 				Utils.messagePrompt("Null entry\t\tNo File Created");
+			} else if(name.length() > 16) {
+				Utils.messagePrompt("Name too long!");
+			} else if(name.startsWith(" ") || (name.endsWith(" "))) {
+				Utils.messagePrompt("Can't being or end with a space!");
 			} else {
-				if(name.length() > 16) {
-					Utils.messagePrompt("Name too long!");
-				} else {
-					p.setName(name);
-					InventoryHandler.createInventory(p);
-					Skills.createSkills(p);
-					Tools.createToolBelt(p);
-					try {
-						FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
-						ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
-						objOut.writeObject(p);
-						objOut.close();//Closing the object stream since we don't need it anymore
-						System.out.println("Player: "+ p.getName() + ", has been created.");
-					} catch(IOException ioe) {
-						System.out.println("There was an error in creating player file. \n"
-								+ "Check file path for possible issue!");
-					}			
-				}
+				p.setName(name);
+				InventoryHandler.createInventory(p);
+				Skills.createSkills(p);
+				Tools.createToolBelt(p);
+				try {
+					FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
+					ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
+					objOut.writeObject(p);
+					objOut.close();//Closing the object stream since we don't need it anymore
+					System.out.println("Player: "+ p.getName() + ", has been created.");
+				} catch(IOException ioe) {
+					System.out.println("There was an error in creating player file. \n"
+							+ "Check file path for possible issue!");
+				}			
 			}
 		}
-	}
 
 	/**
 	 * We'll make a dummy player object
