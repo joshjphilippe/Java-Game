@@ -58,7 +58,7 @@ public class Main {
 	private static JButton combatTestButton, shoppingButton, woodCuttingTestButton, displaySkillsButton, displayToolBeltButton, safeExitButton;
 	private static JTextArea console;
 	public static JTextArea inventoryArea;
-	
+
 	/**
 	 * Launch the application.
 	 */
@@ -231,7 +231,7 @@ public class Main {
 		woodCuttingTestButton.setForeground(Color.BLACK);
 		woodCuttingTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for(int i = 0; i < 6; i++){
+				for(int i = 0; i < 6; i++) {
 					Trees.spawnTrees(i, 0);
 				}
 				Woodcutting.chopTree(p);
