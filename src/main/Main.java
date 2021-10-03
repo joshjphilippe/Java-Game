@@ -20,7 +20,6 @@ import javax.swing.SwingUtilities;
 import handlers.CombatHandler;
 import handlers.FileHandler;
 import handlers.InventoryHandler;
-import handlers.NPCHandler;
 import handlers.loaders.ItemLoader;
 import handlers.loaders.NPCLoader;
 import player.Player;

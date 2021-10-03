@@ -70,6 +70,7 @@ public class Trees {
         spawned.add(pos, trees.get(treeType));
     }
 
+    @SuppressWarnings("unused")
     private static void displayTrees() {
         for(int i = 0; i < trees.size(); i++) {
             System.out.println(trees.get(i).toString());
