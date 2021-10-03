@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 
 import javax.swing.JOptionPane;
 
+import handlers.loaders.ArmorLoader;
 import main.Main;
 import player.Player;
 import player.Skills;
@@ -66,6 +67,7 @@ public class FileHandler implements Serializable {
 				InventoryHandler.createInventory(p);
 				Skills.createSkills(p);
 				Tools.createToolBelt(p);
+				ArmorLoader.createEquipment(p);
 				try {
 					FileOutputStream fileOut = new FileOutputStream(savedir + p.getName()+".ser");//We save using .ser because we are serializing the player
 					ObjectOutputStream objOut = new ObjectOutputStream(fileOut);//This lets us write the player object to their save file
@@ -111,6 +113,7 @@ public class FileHandler implements Serializable {
 			InventoryHandler.loadInventory(p);
 			Skills.loadSkills(p);
 			Tools.loadToolBelt(p);
+			ArmorLoader.loadEquipment(p);
 		} catch(IOException | ClassNotFoundException ioe) {
 			System.out.println("Error loading player, improper name? Save directory missing?");
 		}
@@ -135,6 +138,7 @@ public class FileHandler implements Serializable {
 		InventoryHandler.saveInventory(p);
 		Skills.saveSkills(p);
 		Tools.saveToolBelt(p);
+		ArmorLoader.saveEquipment(p);
 
 		System.out.println("\nSaving Player's Information..");
 		Utils.delay(1);
@@ -156,11 +160,13 @@ public class FileHandler implements Serializable {
 			Path main = Paths.get(savedir+name+".ser");
 			Path skills = Paths.get(savedir+name+"_skills.csv");
 			Path toolBelt = Paths.get(savedir+name+"_toolbelt.csv");
+			Path equipment = Paths.get(savedir+name+"_equipment.csv");
 			Path inventory = Paths.get("./data/inventory/"+name+".txt");
 
 			Files.delete(main);
 			Files.delete(skills);
 			Files.delete(toolBelt);
+			Files.delete(equipment);
 			Files.delete(inventory);
 
 			System.out.println("Player deleted!");

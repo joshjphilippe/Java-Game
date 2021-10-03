@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 import handlers.CombatHandler;
 import handlers.FileHandler;
 import handlers.InventoryHandler;
+import handlers.loaders.ArmorLoader;
 import handlers.loaders.ItemLoader;
 import handlers.loaders.NPCLoader;
 import player.Player;
@@ -38,7 +39,6 @@ public class Main {
 	/*Core*/
 	private static JFrame frame;
 	private static Container container;
-	boolean playerLoaded = false;
 	
 	/*Title Screen*/
 	private static JPanel titlePanel, titleBPanel;
@@ -71,6 +71,7 @@ public class Main {
 					Skills.loadXpTable();
 					Trees.loadTrees();
 					Tools.loadAllTools();
+					ArmorLoader.loadAllEquipment();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

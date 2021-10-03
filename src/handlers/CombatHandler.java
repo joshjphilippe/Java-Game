@@ -72,7 +72,7 @@ public class CombatHandler {
      * @param npc
      */
     private static void attackNPC(Player p, NPCHandler npc, int index) {
-        int playerAtk = 9;
+        int playerAtk = rand.nextInt(p.getAtk());
         Main.addMessage("\nYou attack the: "+npc.getName()+"!");
         Main.addMessage("\nYou hit a: "+playerAtk+"!");
         Utils.delay(1);
@@ -83,7 +83,7 @@ public class CombatHandler {
 
         Utils.delay(1);
         Main.addMessage("\nThe "+npc.getName()+" now has: "+currentHp+" Health left!");
-        //NPCLoader.whoSpawned();
+        
         Utils.delay(3);
         deathCheck(p, npc, index);
     }

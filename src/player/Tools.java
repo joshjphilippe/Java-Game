@@ -24,9 +24,10 @@ public class Tools {
      * 2 Fishing Rod
      */
 
-    private static final String dir = "./data/saves/";
-    private static final String axesDir = "./data/tools/axes.csv";
-    private static final String picksDir = "./data/tools/picks.csv";
+    private static final String saveDir = "./data/saves/";
+    private static final String dir = "./data/tools/";
+    private static final String axesDir = dir+"axes.csv";
+    private static final String picksDir = dir+"picks.csv";
 
     public static ArrayList<Tools> playerToolBelt = new ArrayList<Tools>();
     public static ArrayList<Tools> axesList = new ArrayList<Tools>();
@@ -63,19 +64,19 @@ public class Tools {
         return getToolName()+","+getAttributeValue()+","+getToolDurability();
     }
 
-    public static void replaceAxe(int toolPosition, int newToolLoc) {
-        playerToolBelt.remove(toolPosition);
-        playerToolBelt.add(toolPosition, Tools.axesList.get(newToolLoc));
+    public static void replaceAxe(int newToolLoc) {
+        playerToolBelt.remove(0);
+        playerToolBelt.add(0, axesList.get(newToolLoc));
     }
 
-    public static void replacePick(int toolPosition, int newToolLoc) {
-        playerToolBelt.remove(toolPosition);
-        playerToolBelt.add(toolPosition, Tools.picksList.get(newToolLoc));
+    public static void replacePick(int newToolLoc) {
+        playerToolBelt.remove(1);
+        playerToolBelt.add(1, picksList.get(newToolLoc));
     }
 
     public static void loadToolBelt(Player p) {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(dir+p.getName()+"_toolbelt.csv")));
+			BufferedReader br = new BufferedReader(new FileReader(new File(saveDir+p.getName()+"_toolbelt.csv")));
 			String line = null;
 			while((line = br.readLine()) != null) {
 				String[] i = line.split(",");
@@ -85,12 +86,12 @@ public class Tools {
 			}
 			System.out.println("Toolbelt Loaded: "+playerToolBelt.size());
 		} catch (IOException ioe) {
-			System.out.println("Trees File not found!");
+			System.out.println("Toolbelt File not found!");
 		}
     }
 
     public static void createToolBelt(Player p) {
-        File f = new File(dir+p.getName()+"_toolbelt.csv");
+        File f = new File(saveDir+p.getName()+"_toolbelt.csv");
         try {
             if(f.createNewFile()) {
                 System.out.println("Toolbelt File created for: "+p.getName());
@@ -145,7 +146,7 @@ public class Tools {
 
     public static void saveToolBelt(Player p) {
         try {
-            File f = new File(dir+p.getName()+"_toolbelt.csv");
+            File f = new File(saveDir+p.getName()+"_toolbelt.csv");
             FileWriter fw = new FileWriter(f);
             for(int i = 0; i < playerToolBelt.size(); i++) {
                 String tool = playerToolBelt.get(i).toString();
