@@ -1,11 +1,15 @@
 package handlers;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.swing.JOptionPane;
 
@@ -144,6 +148,25 @@ public class FileHandler implements Serializable {
 			System.out.println(p.getName()+", has been saved!\n");
 		} catch(IOException ioe) {
 			System.out.println("Couldn't save the data! File path missing?");
+		}
+	}
+
+	public static void deleteFile() {
+		String name = JOptionPane.showInputDialog("Enter Character Name:");
+		try {
+			Path main = Paths.get(savedir+name+".ser");
+			Path skills = Paths.get(savedir+name+"_skills.csv");
+			Path toolBelt = Paths.get(savedir+name+"_toolbelt.csv");
+			Path inventory = Paths.get("./data/inventory/"+name+".txt");
+
+			Files.delete(main);
+			Files.delete(skills);
+			Files.delete(toolBelt);
+			Files.delete(inventory);
+
+			System.out.println("Player deleted!");
+		} catch (IOException ioe) {
+			System.out.println("This file doesn't exist! Check spelling!");
 		}
 	}
 	

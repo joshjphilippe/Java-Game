@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import handlers.NPCHandler;
+import main.Main;
 
 /**
  * @author Joshua Jean-Philippe
@@ -17,6 +18,7 @@ public class NPCLoader {
 
     private static final String dir = "./data/npcs.csv";
     public static ArrayList<NPCHandler> npcs = new ArrayList<NPCHandler>();
+	public static ArrayList<NPCHandler> spawned = new ArrayList<NPCHandler>();
     private static NPCHandler npch;
 
 
@@ -35,6 +37,16 @@ public class NPCLoader {
 			System.out.println("NPC File not found!");
 		}
     }
+
+	public static void spawnNPC(int pos, int id) {
+		spawned.add(pos, npcs.get(id));
+	}
+
+	public static void whoSpawned() {
+        for(int i = 0; i < spawned.size(); i++) {
+            Main.addMessage("Index: ["+i+"] "+spawned.get(i).toString());
+        }
+	}
     
     /**
 	 * Use this to spawn npc in game

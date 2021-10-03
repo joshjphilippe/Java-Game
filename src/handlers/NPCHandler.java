@@ -76,7 +76,7 @@ public class NPCHandler {
 
 	@Override
 	public String toString() {
-		return "ID: ["+this.getId()+"], Name: [" +this.getName()+ "], Health: ["+this.getHp()+"], Attack: ["+this.getAtk()+"], Defence: ["+this.getDef()+"], Description: ["+this.getDesc()+"].";
+		return "Name: [" +this.getName()+ "], Health: ["+this.getHp()+"], Attack: ["+this.getAtk()+"], Defence: ["+this.getDef()+"], Description: ["+this.getDesc()+"].";
 	}  
 
 }

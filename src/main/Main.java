@@ -44,7 +44,7 @@ public class Main {
 	/*Title Screen*/
 	private static JPanel titlePanel, titleBPanel;
 	private JLabel titleLabel;
-	private JButton createButton, loadButton, exitButton;
+	private JButton createButton, loadButton, deleteButton, exitButton;
 	private Font titleFont = new Font("Sans-Serif", Font.BOLD, 50);
 
 	/*Main Screen*/
@@ -105,9 +105,9 @@ public class Main {
 		
 		titleBPanel = new JPanel();
 		titleBPanel.setBounds(40, 450, 450, 50);//X Y position followed by Width Height
-		titleBPanel.setLayout(new GridLayout(1, 3));//Layout the buttons in 1 row with 3 columns
+		titleBPanel.setLayout(new GridLayout(1, 4));//Layout the buttons in 1 row with 3 columns
 		
-		createButton = new JButton("Create Character");
+		createButton = new JButton("Create");
 		createButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FileHandler.createPlayer();
@@ -116,7 +116,7 @@ public class Main {
 		createButton.setBackground(Color.WHITE);
 		createButton.setForeground(Color.BLACK);
 		
-		loadButton = new JButton("Load Character");
+		loadButton = new JButton("Load");
 		loadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				FileHandler.loadPlayer();
@@ -124,8 +124,17 @@ public class Main {
 		});
 		loadButton.setBackground(Color.WHITE);
 		loadButton.setForeground(Color.BLACK);
+
+		deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FileHandler.deleteFile();
+			}
+		});
+		deleteButton.setBackground(Color.WHITE);
+		deleteButton.setForeground(Color.BLACK);
 		
-		exitButton = new JButton("Exit Game");
+		exitButton = new JButton("Exit");
 		exitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
@@ -138,6 +147,7 @@ public class Main {
 		
 		titleBPanel.add(createButton);
 		titleBPanel.add(loadButton);
+		titleBPanel.add(deleteButton);
 		titleBPanel.add(exitButton);
 		
 		
@@ -158,8 +168,10 @@ public class Main {
 		console = new JTextArea();
 		console.setLineWrap(true);
 		console.setEditable(false);
+		console.setCaretPosition(console.getDocument().getLength());
 		console.setBorder(BorderFactory.createCompoundBorder(null, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 		
+
 		verticalPane = new JScrollPane(console);
 		verticalPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
@@ -211,9 +223,19 @@ public class Main {
 		combatTestButton.setForeground(Color.BLACK);
 		combatTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NPCHandler man = NPCLoader.spawnNPC(0);
+				/*NPCHandler man = NPCLoader.spawnNPC(0);
 				CombatHandler.startCombat(p, man);
-				FileHandler.savePlayer(p);
+				FileHandler.savePlayer(p);*/
+				NPCLoader.spawnNPC(0, 0);
+				NPCLoader.spawnNPC(1, 1);
+				NPCLoader.spawnNPC(2, 0);
+				NPCLoader.spawnNPC(3, 1);
+				NPCLoader.spawnNPC(4, 1);
+				NPCLoader.spawnNPC(5, 0);
+				Main.addMessage("\n----------------");
+				NPCLoader.whoSpawned();
+
+				CombatHandler.startCombat(p);
 			}
 		});
 		
