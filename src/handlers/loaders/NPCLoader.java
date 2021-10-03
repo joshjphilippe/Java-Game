@@ -55,17 +55,7 @@ public class NPCLoader {
 	 * @param index location of NPC in ArrayList
 	 * @return NPCHandler Object
 	 */
-	public static NPCHandler spawnNPC(int index) {
-		NPCHandler npc = npcs.get(index);
-		/**Setting the values for the NPC we requested for in index**/
-        int id = npc.getId();
-		String name = npc.getName();
-		int hp = npc.getHp();
-		int atk = npc.getAtk();
-		int def = npc.getDef();
-		String desc = npc.getDesc();
-
-		//This is what is actually creating the NPC object based off of the info sent to it
+	public static NPCHandler createNPC(int id, String name, int hp, int atk, int def, String desc) {
 		setNpch(new NPCHandler(id, name, hp, atk, def, desc));
 		return npch;
 	}

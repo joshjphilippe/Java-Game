@@ -228,10 +228,7 @@ public class Main {
 				FileHandler.savePlayer(p);*/
 				NPCLoader.spawnNPC(0, 0);
 				NPCLoader.spawnNPC(1, 1);
-				NPCLoader.spawnNPC(2, 0);
-				NPCLoader.spawnNPC(3, 1);
-				NPCLoader.spawnNPC(4, 1);
-				NPCLoader.spawnNPC(5, 0);
+
 				Main.addMessage("\n----------------");
 				NPCLoader.whoSpawned();
 

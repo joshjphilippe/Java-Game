@@ -20,37 +20,40 @@ public class CombatHandler {
      * @param p
      */
     public static void startCombat(Player p) {
-        do {
-            int npc = JOptionPane.showOptionDialog(null, null, "Select an NPC", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, NPCLoader.spawned.toArray(), null);
-            if(NPCLoader.spawned.get(npc).getHp() > 0) {
-                int npcHP = NPCLoader.spawned.get(npc).getHp();
-                String npcName = NPCLoader.spawned.get(npc).getName();
-                String examine = NPCLoader.spawned.get(npc).getDesc();
+        int index = JOptionPane.showOptionDialog(null, null, "Combat!", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, NPCLoader.spawned.toArray(), null);
+        
+        NPCHandler spawned = NPCLoader.spawned.get(index);
+        int hp = spawned.getHp();
+        int id = spawned.getId();
+        int atk = spawned.getAtk();
+        int def = spawned.getDef();
+        String desc = spawned.getDesc();
+        String name =spawned.getName();
 
-                while(npcHP > 0) {
-                    int y = 0;
-                    while (y < 1) {
-                        int xChoice = JOptionPane.showOptionDialog(null, "You are facing off against a: "+npcName+"! What will you do?", "Combat Against: "+npcName, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, combatOptions, null);
-                        switch(xChoice) {
-                            case 0:
-                                attackNPC(p, npc);
-                                break;
-                            case 1:
-                                Main.addMessage("You clicked use item!");
-                                break;
-                            case 2:
-                                Main.addMessage("You examine the ["+npcName+"], ["+examine+"]!");
-                                break;
-                            case 3:
-                                NPCLoader.spawned.clear();
-                                Main.addMessage("You run from the fight!");
-                                y = 1;
-                                break;
-                        }
+        NPCHandler npc = NPCLoader.createNPC(id, name, hp, atk, def, desc);
+        do {
+            while(npc.getHp() > 0) {
+                int y = 0;
+                while (y < 1) {
+                    int xChoice = JOptionPane.showOptionDialog(null, "You are facing off against a: "+name+"! What will you do?", "Combat Against: "+name, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, combatOptions, null);
+                    switch(xChoice) {
+                        case 0:
+                            attackNPC(p, npc, index);
+                            y = 1;
+                            break;
+                        case 1:
+                            Main.addMessage("You clicked use item!");
+                            break;
+                        case 2:
+                            Main.addMessage("You examine the ["+name+"], ["+desc+"]!");
+                            break;
+                        case 3:
+                            NPCLoader.spawned.clear();
+                            Main.addMessage("You run from the fight!");
+                            y = 1;
+                            break;
                     }
-                    break;
                 }
-                break;
             }
         } while(!NPCLoader.spawned.isEmpty());
     }
@@ -59,7 +62,7 @@ public class CombatHandler {
      * Combat theme starts
      * Future plan: check agility -- faster agility goes first
      *     Prompt options: attack, examine, use items
-     * After every attack check npc current health
+     * After every attack, check npc current health
      * If health <= 0 stop combat
      * else continue combat
      * 
@@ -68,36 +71,26 @@ public class CombatHandler {
      * @param p
      * @param npc
      */
-    private static void attackNPC(Player p, int npc) {
-        int startHp = NPCLoader.spawned.get(npc).getHp();
-        int id = NPCLoader.spawned.get(npc).getId();
-        int atk = NPCLoader.spawned.get(npc).getAtk();
-        int def = NPCLoader.spawned.get(npc).getDef();
-        String desc = NPCLoader.spawned.get(npc).getDesc();
-        String npcName = NPCLoader.spawned.get(npc).getName();
-
-
+    private static void attackNPC(Player p, NPCHandler npc, int index) {
         int playerAtk = 9;
-        Main.addMessage("\nYou attack the: "+npcName+"!");
+        Main.addMessage("\nYou attack the: "+npc.getName()+"!");
         Main.addMessage("\nYou hit a: "+playerAtk+"!");
         Utils.delay(1);
-        int newNpcHp = startHp - playerAtk;
+        int newNpcHp = npc.getHp() - playerAtk;
 
-        NPCLoader.spawned.get(npc).setHp(newNpcHp);
-
-        int currentHp = NPCLoader.spawned.get(npc).getHp();
+        npc.setHp(newNpcHp);
+        int currentHp = npc.getHp();
 
         Utils.delay(1);
-        Main.addMessage("\nThe "+npcName+" now has: "+currentHp+" Health left!");
-        NPCLoader.whoSpawned();
+        Main.addMessage("\nThe "+npc.getName()+" now has: "+currentHp+" Health left!");
+        //NPCLoader.whoSpawned();
         Utils.delay(3);
-        deathCheck(p, npc);
+        deathCheck(p, npc, index);
     }
     
-    private static void attackPlayer(int npc, Player p) {
-        String npcName = NPCLoader.spawned.get(npc).getName();
-        int npcHP = NPCLoader.spawned.get(npc).getHp();
-        int npcAttack = NPCLoader.spawned.get(npc).getAtk();
+    private static void attackPlayer(NPCHandler npc, Player p) {
+        String npcName = npc.getName();
+        int npcAttack = npc.getAtk();
 
         if(p.getHp() > 0) {
             int attack = rand.nextInt(npcAttack);
@@ -124,20 +117,19 @@ public class CombatHandler {
         }
     }
     
-    public static void deathCheck(Player p, int npc) {
-        String npcName = NPCLoader.spawned.get(npc).getName();
-        int npcHP = NPCLoader.spawned.get(npc).getHp();
-        if(npcHP > 0) {
+    private static void deathCheck(Player p, NPCHandler npc, int index) {
+        if(npc.getHp() > 0) {
             isNPCTurn = true;
             if(isNPCTurn == true) {
                 attackPlayer(npc, p);
             }
-        } else {
+        } else if(npc.getHp() <= 0) {
             isNPCTurn = false;
-            Main.addMessage("\nYou have defeated the: "+npcName+"!");
-            NPCLoader.spawned.remove(npc);
-            startCombat(p);
+            Main.addMessage("\nYou have defeated the: "+npc.getName()+"!");
+            NPCLoader.spawned.remove(index);
             ItemUsage.minorPoisonUsed = 0;
+            if(NPCLoader.spawned.size() > 0)
+            startCombat(p);
         }
     }
     /**
