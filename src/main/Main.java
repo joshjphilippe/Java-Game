@@ -67,6 +67,7 @@ public class Main {
 				try {
 					new Main();
 					NPCLoader.loadNpcs();
+					NPCLoader.loadNPCWeapons();
 					ItemLoader.loadItems();
 					Skills.loadXpTable();
 					Trees.loadTrees();
@@ -233,6 +234,7 @@ public class Main {
 				NPCLoader.whoSpawned();
 
 				CombatHandler.startCombat(p);
+				FileHandler.savePlayer(p);
 			}
 		});
 		

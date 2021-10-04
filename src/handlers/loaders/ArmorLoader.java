@@ -52,6 +52,17 @@ public class ArmorLoader {
         loadLegs();
         loadBoots();
     }
+
+    public static int totalArmor() {
+        int helm = currentEquipment.get(0).getDefValue();
+        int chest = currentEquipment.get(1).getDefValue();
+        int arms = currentEquipment.get(2).getDefValue();
+        int legs = currentEquipment.get(3).getDefValue();
+        int boots = currentEquipment.get(4).getDefValue();
+
+        return helm + chest + arms + legs + boots;
+
+    }
  
     public static void replaceHelm(int helmId) {
         currentEquipment.remove(0);
@@ -84,12 +95,12 @@ public class ArmorLoader {
             if(f.createNewFile()) {
                 System.out.println("Equipment File created for: "+p.getName());
                 FileWriter fw = new FileWriter(f);
-                fw.write("Bronze Helmet,1\n");
-                fw.write("Bronze Chestplate,1\n");
-                fw.write("Bronze Guantlets,1\n");
-                fw.write("Bronze Platelegs,1\n");
-                fw.write("Bronze Boots,1\n");
-                fw.write("Bronze Kiteshield,1\n");
+                fw.write("Nothing,0\n");
+                fw.write("Nothing,0\n");
+                fw.write("Nothing,0\n");
+                fw.write("Nothing,0\n");
+                fw.write("Nothing,0\n");
+                fw.write("Nothing,0\n");
                 fw.close();
             } else {
                 System.out.println("This Toolbelt File already exists!");
