@@ -255,6 +255,7 @@ public class Main {
 		woodCuttingTestButton.setForeground(Color.BLACK);
 		woodCuttingTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Trees.spawned.clear();
 				for(int i = 0; i < 6; i++) {
 					Trees.spawnTrees(i, 0);
 				}
