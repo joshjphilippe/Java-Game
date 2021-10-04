@@ -238,12 +238,15 @@ public class Main {
 			}
 		});
 		
-		shoppingButton = new JButton("Test the Shop! -- underconstruction (refreshes inventory atm)");
+		shoppingButton = new JButton("Refresh inventory");
 		shoppingButton.setBackground(Color.WHITE);
 		shoppingButton.setForeground(Color.BLACK);
 		shoppingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refreshInventory(p);
+				p.setHp(10);
+				updateHp(p);
+				FileHandler.savePlayer(p);
 			}
 		});
 
