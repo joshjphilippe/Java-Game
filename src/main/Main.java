@@ -227,6 +227,7 @@ public class Main {
 				/*NPCHandler man = NPCLoader.spawnNPC(0);
 				CombatHandler.startCombat(p, man);
 				FileHandler.savePlayer(p);*/
+				NPCLoader.spawned.clear();
 				NPCLoader.spawnNPC(0, 0);
 				NPCLoader.spawnNPC(1, 1);
 
