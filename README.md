@@ -19,3 +19,6 @@ Added: Woodcutting and Tools
 Woodcutting isn't done yet, I want to add a respawn timer to trees. Something like once a zone is cleared the player can't return there for woodcutting until x amount of time has passed. Most likely going to need to store this time value somewhere so the player can't close the game and reopen it and "start over".
 
 Planned Features: Better Combat and NPCs, Store, More Skills (Once I'm satisifed with woodcutting), Area/Zone Travelling, Quests.. more to be added
+---------------------------------------------
+
+Added runnable jar file!
