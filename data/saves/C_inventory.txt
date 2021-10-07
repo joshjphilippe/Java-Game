@@ -1,2 +1,2 @@
-Minor Potion:8
-Bronze Axe:3
+Normal Log:8
+Bronze Axe:15

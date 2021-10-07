@@ -22,6 +22,7 @@ public class ShopLoader {
 
     private static final String dir = "./data/shops/";
     private static String[] shopOptions = {"Buy", "Sell", "Leave"};
+    private static String[] loopOptions = {"Yes", "No"};
 
     public static void loadShop(Player p, String shopName) {
         if(!currentShop.isEmpty()) {
@@ -127,22 +128,24 @@ public class ShopLoader {
                                 InventoryHandler.refreshInventory(p);
                                 p.setGold(addGold);
                                 FileHandler.savePlayer(p);
+                                Main.updateGold(p);
+                                Utils.messagePrompt("You've sold: ["+quantity+"] ["+item+"(s)] for [+"+revenue+"] gold!");
                             }
                         }
                     }
                     boolean goodOption = false;
                     shopAgain: do {
-                        String again = JOptionPane.showInputDialog(null, "Would you like to sell another item? 'yes' or 'no'");
-                        if(again.equalsIgnoreCase("yes") && goodOption == false) {
-                            goodOption = true;
-                            sellItems(p, shopTitle);
-                        } else if(again.equalsIgnoreCase("no") && goodOption == false) {
-                            /** Might loop this to bring back to the original shop menu, probably not */
-                            goodOption = true;
-                            Utils.messagePrompt("Thank you, come again!");
-                            break shopAgain;
-                        } else if(!again.equalsIgnoreCase("yes") || !again.equalsIgnoreCase("no")) {
-                            Utils.messagePrompt("What?");
+                        int again = JOptionPane.showOptionDialog(null, "Would you like to shop again?", "Welcome to "+shopTitle+"!", JOptionPane.DEFAULT_OPTION, JOptionPane.YES_NO_OPTION, null, loopOptions, null);
+                        switch(again) {
+                            case 0:
+                                goodOption = true;
+                                sellItems(p, shopTitle);
+                                break;
+                            case 1:
+                                /** Might loop this to bring back to the original shop menu, probably not */
+                                goodOption = true;
+                                Utils.messagePrompt("Thank you, come again!");
+                                break shopAgain;
                         }
                     } while(!goodOption == true);
                 }
@@ -232,17 +235,17 @@ public class ShopLoader {
                     }
                     boolean goodOption = false;
                     shopAgain: do {
-                        String again = JOptionPane.showInputDialog(null, "Would you like to buy another item? 'yes' or 'no'");
-                        if(again.equalsIgnoreCase("yes") && goodOption == false) {
-                            goodOption = true;
-                            buyItems(p, shopTitle);
-                        } else if(again.equalsIgnoreCase("no") && goodOption == false) {
-                            /** Might loop this to bring back to the original shop menu, probably not */
-                            goodOption = true;
-                            Utils.messagePrompt("Thank you, come again!");
-                            break shopAgain;
-                        } else if(!again.equalsIgnoreCase("yes") || !again.equalsIgnoreCase("no")) {
-                            Utils.messagePrompt("What?");
+                        int again = JOptionPane.showOptionDialog(null, "Would you like to shop again?", "Welcome to "+shopTitle+"!", JOptionPane.DEFAULT_OPTION, JOptionPane.YES_NO_OPTION, null, loopOptions, null);
+                        switch(again) {
+                            case 0:
+                                goodOption = true;
+                                sellItems(p, shopTitle);
+                                break;
+                            case 1:
+                                /** Might loop this to bring back to the original shop menu, probably not */
+                                goodOption = true;
+                                Utils.messagePrompt("Thank you, come again!");
+                                break shopAgain;
                         }
                     } while(!goodOption == true);
                 }

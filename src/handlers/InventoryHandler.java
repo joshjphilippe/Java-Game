@@ -83,6 +83,9 @@ public class InventoryHandler {
                 Integer amount = Integer.parseInt(kv[1].trim());
                 if(!item.equals("") && !amount.equals("")) {
                     inventory.put(item, amount);
+                    if(amount == 0) {
+                        inventory.remove(item);
+                    }
                 }
             }
             br.close();
