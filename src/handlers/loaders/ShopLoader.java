@@ -97,59 +97,55 @@ public class ShopLoader {
     }
 
     private static void sellProcess(Player p, String item, String shopTitle) {
-        checklist: for(int i = 0; i < ItemLoader.items.size(); i++) {
-            String itemName = ItemLoader.items.get(i).getItemName();
-            /**
-             * Loop through all of our game items
-             * Once we find the item, get the price
-             */
-            if(itemName.equals(item)) {
+        /**
+         * Loop through all items in game
+         * Then once we find item names that match
+         * Extract necessary data
+         */
+        for(int i = 0; i < ItemLoader.items.size(); i++) {
+            String currentItem = ItemLoader.items.get(i).getItemName();
+            if(currentItem.equals(item)) {
                 int itemPrice = ItemLoader.items.get(i).getPrice();
+                int inventoryAmount = InventoryHandler.inventory.get(item);
                 boolean isValid = false;
-                goodAmount: while(isValid == false) {
+                do {
                     String qInput = JOptionPane.showInputDialog(null, "How many would you like to sell?");
+                    int quantity = Integer.parseInt(qInput);
                     if(qInput.isBlank() || qInput.isEmpty()) {
                         Utils.messagePrompt("Cannot contain empty space or be blank!");
                     } else if(qInput.matches("^[a-zA-Z]*$")) {
                         Utils.messagePrompt("Cannot contain alpha or special characters!");
-                    } else if(qInput.matches("[0-9]+")) {
+                    } else if(quantity > inventoryAmount) {
+                        Utils.messagePrompt("You do not that many of this item!");
+                    } else if(quantity <= 0) {
+                        Utils.messagePrompt("You cannot sell 0 or negative of something!");
+                    } else if(qInput.matches("[0-9]+") && InventoryHandler.inventory.containsKey(item) && quantity <= inventoryAmount) {
+                        int revenue = itemPrice * quantity;
+                        int addGold = p.getGold() + revenue;
+                        InventoryHandler.removeItem(item, quantity);
+                        InventoryHandler.refreshInventory(p);
+                        p.setGold(addGold);
+                        FileHandler.savePlayer(p);
+                        Main.updateGold(p);
+                        Utils.messagePrompt("You've sold: ["+quantity+"] ["+item+"(s)] for [+"+revenue+"] gold!");
                         isValid = true;
-                        int quantity = Integer.parseInt(qInput);
-                        if(InventoryHandler.inventory.containsKey(item)) {
-                            int itemAmount = InventoryHandler.inventory.get(item);
-                            if(quantity > itemAmount) {
-                                Utils.messagePrompt("You do not have that many of this item!");
-                            } else if(quantity == 0 || quantity <= -1) {
-                                Utils.messagePrompt("You cannot sell 0 or negative of something!");
-                            } else if(quantity <= itemAmount) {
-                                int revenue = itemPrice * quantity;
-                                int addGold = p.getGold() + revenue;
-                                InventoryHandler.removeItem(item, quantity);
-                                InventoryHandler.refreshInventory(p);
-                                p.setGold(addGold);
-                                FileHandler.savePlayer(p);
-                                Main.updateGold(p);
-                                Utils.messagePrompt("You've sold: ["+quantity+"] ["+item+"(s)] for [+"+revenue+"] gold!");
-                            }
-                        }
                     }
-                    boolean goodOption = false;
-                    shopAgain: do {
-                        int again = JOptionPane.showOptionDialog(null, "Would you like to shop again?", "Welcome to "+shopTitle+"!", JOptionPane.DEFAULT_OPTION, JOptionPane.YES_NO_OPTION, null, loopOptions, null);
-                        switch(again) {
-                            case 0:
-                                goodOption = true;
-                                sellItems(p, shopTitle);
-                                break;
-                            case 1:
-                                /** Might loop this to bring back to the original shop menu, probably not */
-                                goodOption = true;
-                                Utils.messagePrompt("Thank you, come again!");
-                                break shopAgain;
-                        }
-                    } while(!goodOption == true);
-                }
-                break checklist;
+                } while(isValid != true);
+                boolean goodOption = false;
+                do {
+                    int again = JOptionPane.showOptionDialog(null, "Would you like to shop again?", "Welcome to "+shopTitle+"!", JOptionPane.DEFAULT_OPTION, JOptionPane.YES_NO_OPTION, null, loopOptions, null);
+                    switch(again) {
+                        case 0:
+                            goodOption = true;
+                            sellItems(p, shopTitle);
+                            break;
+                        case 1:
+                            /** Might loop this to bring back to the original shop menu, probably not */
+                            goodOption = true;
+                            Utils.messagePrompt("Thank you, come again!");
+                            break;
+                    }
+                } while(goodOption != true);
             }
         }
     }

@@ -1,2 +1,10 @@
-Normal Log:8
-Bronze Axe:15
+Maple Log:999
+Willow Log:999
+Bronze Axe:999
+Hard-Wood Log:999
+Minor Poison:999
+Biscuit:999
+Wood Axe:999
+Iron Axe:999
+Mithril Axe:999
+Oak Log:999
