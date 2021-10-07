@@ -10,9 +10,9 @@ import javax.swing.JOptionPane;
 
 import handlers.FileHandler;
 import handlers.InventoryHandler;
-import handlers.ItemHandler;
 import handlers.ShopHandler;
 import handlers.Utils;
+import jdk.jshell.execution.Util;
 import main.Main;
 import player.Player;
 
@@ -60,7 +60,6 @@ public class ShopLoader {
                     break;
                 case 1:
                     optionSelected = true;
-                    Utils.messagePrompt("This doesn't work yet!");
                     sellItems(p, shopTitle);
                     break;
                 case 2:
@@ -72,6 +71,84 @@ public class ShopLoader {
     }
 
     private static void sellItems(Player p, String shopTitle) {
+        boolean isValid = false;
+        itemSelected: while(isValid == false) {
+            String input = JOptionPane.showInputDialog(null, "Enter the name of the item you would like to sell (case sensitive):");
+            if(input.isBlank() || input.isEmpty()) {
+                Utils.messagePrompt("Cannot contain empty space or be blank!");
+            } else if(input.matches("[0-9]+")) {
+                Utils.messagePrompt("There aren't any numerical items!");
+            } else if(!InventoryHandler.inventory.containsKey(input)) {
+                Utils.messagePrompt("Cannot locate this item within Inventory!");
+            } else if(InventoryHandler.inventory.get(input) == 0) {
+                Utils.messagePrompt("You no longer have this item!");
+                InventoryHandler.inventory.remove(input);
+                InventoryHandler.refreshInventory(p);
+            } else if(InventoryHandler.inventory.containsKey(input)) {
+                isValid = true;
+                System.out.println("Yes, hello: "+input);
+                sellProcess(p, input, shopTitle);
+            } else if(input.equalsIgnoreCase("exit")) {
+                Utils.messagePrompt("Thank you, come again!");
+                break itemSelected;
+            }
+        }
+    }
+
+    private static void sellProcess(Player p, String item, String shopTitle) {
+        checklist: for(int i = 0; i < ItemLoader.items.size(); i++) {
+            String itemName = ItemLoader.items.get(i).getItemName();
+            /**
+             * Loop through all of our game items
+             * Once we find the item, get the price
+             */
+            if(itemName.equals(item)) {
+                int itemPrice = ItemLoader.items.get(i).getPrice();
+                boolean isValid = false;
+                goodAmount: while(isValid == false) {
+                    String qInput = JOptionPane.showInputDialog(null, "How many would you like to sell?");
+                    if(qInput.isBlank() || qInput.isEmpty()) {
+                        Utils.messagePrompt("Cannot contain empty space or be blank!");
+                    } else if(qInput.matches("^[a-zA-Z]*$")) {
+                        Utils.messagePrompt("Cannot contain alpha or special characters!");
+                    } else if(qInput.matches("[0-9]+")) {
+                        isValid = true;
+                        int quantity = Integer.parseInt(qInput);
+                        if(InventoryHandler.inventory.containsKey(item)) {
+                            int itemAmount = InventoryHandler.inventory.get(item);
+                            if(quantity > itemAmount) {
+                                Utils.messagePrompt("You do not have that many of this item!");
+                            } else if(quantity == 0 || quantity <= -1) {
+                                Utils.messagePrompt("You cannot sell 0 or negative of something!");
+                            } else if(quantity <= itemAmount) {
+                                int revenue = itemPrice * quantity;
+                                int addGold = p.getGold() + revenue;
+                                InventoryHandler.removeItem(item, quantity);
+                                InventoryHandler.refreshInventory(p);
+                                p.setGold(addGold);
+                                FileHandler.savePlayer(p);
+                            }
+                        }
+                    }
+                    boolean goodOption = false;
+                    shopAgain: do {
+                        String again = JOptionPane.showInputDialog(null, "Would you like to sell another item? 'yes' or 'no'");
+                        if(again.equalsIgnoreCase("yes") && goodOption == false) {
+                            goodOption = true;
+                            sellItems(p, shopTitle);
+                        } else if(again.equalsIgnoreCase("no") && goodOption == false) {
+                            /** Might loop this to bring back to the original shop menu, probably not */
+                            goodOption = true;
+                            Utils.messagePrompt("Thank you, come again!");
+                            break shopAgain;
+                        } else if(!again.equalsIgnoreCase("yes") || !again.equalsIgnoreCase("no")) {
+                            Utils.messagePrompt("What?");
+                        }
+                    } while(!goodOption == true);
+                }
+                break checklist;
+            }
+        }
     }
 
     private static void buyItems(Player p, String shopTitle) {
@@ -119,7 +196,6 @@ public class ShopLoader {
         System.out.println("Yes, hello: "+index);
         shopping: while(isValid == false) {
             String input = JOptionPane.showInputDialog(null, "How many would you like to buy?");
-
             if(input.isBlank() || input.isEmpty()) {
                 Utils.messagePrompt("Cannot contain empty space or be blank!");
             } else if(input.matches("^[a-zA-Z]*$")) {
@@ -151,7 +227,6 @@ public class ShopLoader {
                         InventoryHandler.addItem(itemName, amount);
                         InventoryHandler.refreshInventory(p);
                         FileHandler.savePlayer(p);
-                        Main.reloadInvView(p);
                         Main.updateGold(p);
                         Utils.messagePrompt("You have successfully purchased: ["+amount+"] ["+itemName+"(s)]!");
                     }

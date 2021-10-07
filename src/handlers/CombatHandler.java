@@ -178,9 +178,8 @@ public class CombatHandler {
         String item = JOptionPane.showInputDialog(null, "Type Item Name", "Use Item", JOptionPane.INFORMATION_MESSAGE);
         if(InventoryHandler.inventory.containsKey(item) && InventoryHandler.inventory.get(item) >= 1) {
             InventoryHandler.removeItem(item, 1);
-            InventoryHandler.saveInventory(p);
+            InventoryHandler.refreshInventory(p);
             ItemUsage.useItem(p, npc, item);
-            Main.reloadInvView(p);
         } else {
             JOptionPane.showMessageDialog(null, "This item does not exist!", "Use Item", JOptionPane.ERROR_MESSAGE);
         }

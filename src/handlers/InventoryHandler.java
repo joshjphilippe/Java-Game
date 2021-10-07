@@ -19,7 +19,7 @@ import player.Player;
  */
 public class InventoryHandler {
 
-    private final static String dir = "./data/inventory/";
+    private final static String dir = "./data/saves/";
     public static Map<String, Integer> inventory = new HashMap<>();
     
     /**
@@ -29,7 +29,7 @@ public class InventoryHandler {
      */
     public static void createInventory(Player p) {
         String name = p.getName();
-        File f = new File(dir+name+".txt");
+        File f = new File(dir+name+"_inventory.txt");
         try {
             if(f.createNewFile()) {
                 System.out.println(name+" Inventory Created");
@@ -49,7 +49,7 @@ public class InventoryHandler {
      */
     public static void saveInventory(Player p) {
         try {
-            File f = new File(dir+p.getName()+".txt");
+            File f = new File(dir+p.getName()+"_inventory.txt");
             BufferedWriter bw = new BufferedWriter((new FileWriter(f)));
             for(Map.Entry<String, Integer> entry : inventory.entrySet()) {
                 bw.write(entry.getKey()+":"+entry.getValue());
@@ -74,7 +74,7 @@ public class InventoryHandler {
     	if(!inventory.isEmpty())
     		inventory.clear();
         try {
-            File f = new File(dir+p.getName()+".txt");
+            File f = new File(dir+p.getName()+"_inventory.txt");
             BufferedReader br = new BufferedReader(new FileReader(f));
             String line = null;
             while((line = br.readLine()) != null) {
@@ -102,6 +102,7 @@ public class InventoryHandler {
      * Loop through keyvalue pairs of hashmap
      */
     public static void displayInventory() {
+        Main.inventoryArea.setText("");
     	for(String i : inventory.keySet()) {
     		Main.inventoryArea.append(i+":"+inventory.get(i)+"\n");
     	}
@@ -137,4 +138,3 @@ public class InventoryHandler {
     }
 
 }
-

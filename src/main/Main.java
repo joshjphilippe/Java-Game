@@ -19,8 +19,6 @@ import javax.swing.SwingUtilities;
 
 import handlers.CombatHandler;
 import handlers.FileHandler;
-import handlers.InventoryHandler;
-import handlers.ItemHandler;
 import handlers.loaders.ArmorLoader;
 import handlers.loaders.ItemLoader;
 import handlers.loaders.NPCLoader;
@@ -340,11 +338,6 @@ public class Main {
 
 	public static void updateGold(Player p) {
 		playerGoldLabel.setText("Gold: "+p.getGold());
-	}
-	
-	public static void reloadInvView(Player p) {
-		inventoryArea.setText("");
-		InventoryHandler.loadInventory(p);
 	}
 
 	public static void addMessageObject(Object object) {

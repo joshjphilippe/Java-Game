@@ -88,7 +88,7 @@ public class Woodcutting {
                     /**Inventory */
                     InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(5 - 2) + 2);
                     InventoryHandler.saveInventory(p);
-                    Main.reloadInvView(p);
+                    InventoryHandler.refreshInventory(p);
                     /**Skills */
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);
@@ -107,8 +107,7 @@ public class Woodcutting {
 
                     /**Inventory */
                     InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(5 - 2) + 2);
-                    InventoryHandler.saveInventory(p);
-                    Main.reloadInvView(p);
+                    InventoryHandler.refreshInventory(p);
                     /**Skills */
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);

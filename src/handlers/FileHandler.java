@@ -161,7 +161,7 @@ public class FileHandler implements Serializable {
 			Path skills = Paths.get(savedir+name+"_skills.csv");
 			Path toolBelt = Paths.get(savedir+name+"_toolbelt.csv");
 			Path equipment = Paths.get(savedir+name+"_equipment.csv");
-			Path inventory = Paths.get("./data/inventory/"+name+".txt");
+			Path inventory = Paths.get(savedir+name+"_inventory.txt");
 
 			Files.delete(main);
 			Files.delete(skills);
