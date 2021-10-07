@@ -24,8 +24,8 @@ public class ItemLoader {
 			String line = null;
 			while((line = br.readLine()) != null) {
 				String[] i = line.split(",");
-                //id name boolean price desc <-- most likely removing item ids and boolean
-				ItemHandler item = new ItemHandler(i[0], Integer.parseInt(i[1]), i[2]);
+                //id name price desc
+				ItemHandler item = new ItemHandler(Integer.parseInt(i[0]), i[1], Integer.parseInt(i[2]), i[3]);
 				items.add(item);
 			}
 			System.out.println("Items Loaded: "+items.size());

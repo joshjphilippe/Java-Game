@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import main.Main;
+import player.skills.woodcutting.Woodcutting;
 
 /**
  * @author Joshua Jean-Philippe
@@ -126,6 +127,10 @@ public class Skills {
         } catch (IOException ioe) {
             System.out.println("Exp table not found!");
         }
+    }
+
+    public static void loadAllSkills() {
+        Woodcutting.loadWoodcutting();
     }
  
     public static String xpTil(Player p, int skillId) {

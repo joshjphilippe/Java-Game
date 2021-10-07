@@ -93,6 +93,11 @@ public class InventoryHandler {
         }
     }
 
+    public static void refreshInventory(Player p) {
+        saveInventory(p);
+        loadInventory(p);
+    }
+
     /**
      * Loop through keyvalue pairs of hashmap
      */

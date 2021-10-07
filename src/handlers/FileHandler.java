@@ -28,7 +28,7 @@ public class FileHandler implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private final static String savedir = "./data/saves/";
-	private static Player p = new Player("null", 10, 5, 10);
+	private static Player p = new Player("null", 10, 5, 1000);
 
 	private static String[] badValues = {"  ", "   ", "    ", "     ", "      ", "       ", "        ", "         ", "          ", "           ", "            ", "             ", "              ", "               ", "                ", "!", "@", "#", "$", "%", "^", "&", "*", "(" ,")", "-", "_", "=", "+", "\"", "\'", "<", ",", ".", ">", "/", "?", ":", ";", "[", "]", "{", "}", "|", "\\", "`", "~"};
 

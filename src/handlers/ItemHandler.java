@@ -2,14 +2,20 @@ package handlers;
 
 public class ItemHandler {
 	
+	private int itemId;
 	private String itemName;
 	private int price;
 	private String desc;
 	
-	public ItemHandler(String itemName, int price, String desc) {
+	public ItemHandler(int itemId, String itemName, int price, String desc) {
+		this.itemId = itemId;
 		this.itemName = itemName;
 		this.price = price;
 		this.desc = desc;
+	}
+
+	public int getItemId() {
+		return itemId;
 	}
 
 	public String getItemName() {
@@ -35,6 +41,7 @@ public class ItemHandler {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
+
 
 	@Override
 	public String toString() {

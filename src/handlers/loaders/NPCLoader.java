@@ -38,6 +38,7 @@ public class NPCLoader {
 				npcs.add(npc);
 			}
 			System.out.println("NPCs Loaded: "+npcs.size());
+			loadNPCWeapons();
 		} catch (IOException ioe) {
 			System.out.println("NPC File not found!");
 		}

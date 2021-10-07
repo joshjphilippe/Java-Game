@@ -20,9 +20,11 @@ import javax.swing.SwingUtilities;
 import handlers.CombatHandler;
 import handlers.FileHandler;
 import handlers.InventoryHandler;
+import handlers.ItemHandler;
 import handlers.loaders.ArmorLoader;
 import handlers.loaders.ItemLoader;
 import handlers.loaders.NPCLoader;
+import handlers.loaders.ShopLoader;
 import player.Player;
 import player.Skills;
 import player.Tools;
@@ -67,7 +69,6 @@ public class Main {
 				try {
 					new Main();
 					NPCLoader.loadNpcs();
-					NPCLoader.loadNPCWeapons();
 					ItemLoader.loadItems();
 					Skills.loadXpTable();
 					Trees.loadTrees();
@@ -224,9 +225,10 @@ public class Main {
 		combatTestButton.setForeground(Color.BLACK);
 		combatTestButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*NPCHandler man = NPCLoader.spawnNPC(0);
-				CombatHandler.startCombat(p, man);
-				FileHandler.savePlayer(p);*/
+				p.setHp(1000);
+				updateHp(p);
+				FileHandler.savePlayer(p);
+
 				NPCLoader.spawned.clear();
 				NPCLoader.spawnNPC(0, 0);
 				NPCLoader.spawnNPC(1, 1);
@@ -239,15 +241,18 @@ public class Main {
 			}
 		});
 		
-		shoppingButton = new JButton("Refresh inventory");
+		shoppingButton = new JButton("Test Shop");
 		shoppingButton.setBackground(Color.WHITE);
 		shoppingButton.setForeground(Color.BLACK);
 		shoppingButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				refreshInventory(p);
-				p.setHp(10);
-				updateHp(p);
-				FileHandler.savePlayer(p);
+				/**
+				 * When using the shop we
+				 * 1) Load
+				 * 2) Enter
+				 */
+				ShopLoader.loadShop(p, "test");
+				ShopLoader.enterShop(p, "Test Shop");
 			}
 		});
 
@@ -324,12 +329,20 @@ public class Main {
 	public static void addMessage(String message) {
 		console.append(message+"\n");
 	}
+
+	public static void addNoSMessage(String message) {
+		console.append(message);
+	}
 	
 	public static void updateHp(Player p) {
 		playerHpLabel.setText("HP: "+p.getHp());
 	}
+
+	public static void updateGold(Player p) {
+		playerGoldLabel.setText("Gold: "+p.getGold());
+	}
 	
-	public static void refreshInventory(Player p) {
+	public static void reloadInvView(Player p) {
 		inventoryArea.setText("");
 		InventoryHandler.loadInventory(p);
 	}

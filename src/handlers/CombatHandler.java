@@ -180,7 +180,7 @@ public class CombatHandler {
             InventoryHandler.removeItem(item, 1);
             InventoryHandler.saveInventory(p);
             ItemUsage.useItem(p, npc, item);
-            Main.refreshInventory(p);
+            Main.reloadInvView(p);
         } else {
             JOptionPane.showMessageDialog(null, "This item does not exist!", "Use Item", JOptionPane.ERROR_MESSAGE);
         }

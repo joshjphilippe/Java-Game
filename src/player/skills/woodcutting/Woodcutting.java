@@ -44,6 +44,10 @@ public class Woodcutting {
 
     private static String playerAxe = Tools.playerToolBelt.get(0).getToolName();
     private static int axeAttri = Tools.playerToolBelt.get(0).getAttributeValue();
+
+    public static void loadWoodcutting() {
+        Trees.loadTrees();
+    }
     
     public static void chopTree(Player p) {
         String skillName = Skills.playerSkills.get(0).getSkillName();
@@ -84,7 +88,7 @@ public class Woodcutting {
                     /**Inventory */
                     InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(5 - 2) + 2);
                     InventoryHandler.saveInventory(p);
-                    Main.refreshInventory(p);
+                    Main.reloadInvView(p);
                     /**Skills */
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);
@@ -104,7 +108,7 @@ public class Woodcutting {
                     /**Inventory */
                     InventoryHandler.addItem(Trees.spawned.get(choice).getTreeType()+" Log", rand.nextInt(5 - 2) + 2);
                     InventoryHandler.saveInventory(p);
-                    Main.refreshInventory(p);
+                    Main.reloadInvView(p);
                     /**Skills */
                     Skills.increaseXp(p, 0, earnedExp);
                     Skills.levelUpCheck(p, 0);
