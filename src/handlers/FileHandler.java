@@ -133,7 +133,6 @@ public class FileHandler implements Serializable {
 	 */
 	public static void savePlayer(Player p) {
 		System.out.println("\nRetrieving Player's Information..");
-		Utils.delay(1);
 		
 		InventoryHandler.saveInventory(p);
 		Skills.saveSkills(p);
@@ -141,7 +140,6 @@ public class FileHandler implements Serializable {
 		ArmorLoader.saveEquipment(p);
 
 		System.out.println("\nSaving Player's Information..");
-		Utils.delay(1);
 		
 		try {
 			FileOutputStream fos = new FileOutputStream(savedir + p.getName() + ".ser");

@@ -23,6 +23,7 @@ import handlers.loaders.ArmorLoader;
 import handlers.loaders.ItemLoader;
 import handlers.loaders.NPCLoader;
 import handlers.loaders.ShopLoader;
+import main.zones.StarterPlains;
 import player.Player;
 import player.Skills;
 import player.Tools;
@@ -54,7 +55,10 @@ public class Main {
 	playerAtkLabel, playerGoldLabel;
 	
 	private static JScrollPane verticalPane, inventoryPane;
-	private static JButton combatTestButton, shoppingButton, woodCuttingTestButton, displaySkillsButton, displayToolBeltButton, safeExitButton;
+	private static JButton combatTestButton, shoppingButton, 
+	woodCuttingTestButton, zoneButton, displaySkillsButton, 
+	displayToolBeltButton, safeExitButton;
+
 	private static JTextArea console;
 	public static JTextArea inventoryArea;
 
@@ -166,7 +170,6 @@ public class Main {
 		
 		/*Console area this is where game will happen for the most part*/
 		console = new JTextArea();
-		console.setLineWrap(true);
 		console.setEditable(false);
 		console.setCaretPosition(console.getDocument().getLength());
 		console.setBorder(BorderFactory.createCompoundBorder(null, BorderFactory.createEmptyBorder(5, 5, 5, 5)));
@@ -174,6 +177,7 @@ public class Main {
 
 		verticalPane = new JScrollPane(console);
 		verticalPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		verticalPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
 		mainScreenPanel.add(verticalPane);
 		
@@ -267,6 +271,15 @@ public class Main {
 			}
 		});
 
+		zoneButton = new JButton("Zone");
+		zoneButton.setBackground(Color.WHITE);
+		zoneButton.setForeground(Color.BLACK);
+		zoneButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				StarterPlains.enterZone(p);
+			}
+		});
+
 		displaySkillsButton = new JButton("Skills");
 		displaySkillsButton.setBackground(Color.WHITE);
 		displaySkillsButton.setForeground(Color.BLACK);
@@ -306,6 +319,7 @@ public class Main {
 		mainScreenActionPanel.add(combatTestButton);
 		mainScreenActionPanel.add(shoppingButton);
 		mainScreenActionPanel.add(woodCuttingTestButton);
+		mainScreenActionPanel.add(zoneButton);
 
 		subPlayerDetailPanel.add(displaySkillsButton);
 		subPlayerDetailPanel.add(displayToolBeltButton);

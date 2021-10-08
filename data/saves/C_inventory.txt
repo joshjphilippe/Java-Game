@@ -1,10 +1,12 @@
 Maple Log:999
+Biscuit:999
 Willow Log:999
+Iron Axe:999
+Bucket:9
+Minor Poison:999
+Rusted Sword:11
+Oak Log:999
+Mithril Axe:999
 Bronze Axe:999
 Hard-Wood Log:999
-Minor Poison:999
-Biscuit:999
 Wood Axe:999
-Iron Axe:999
-Mithril Axe:999
-Oak Log:999
