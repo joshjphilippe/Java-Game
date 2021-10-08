@@ -52,6 +52,14 @@ public class StarterPlains {
       * @param p
       */
     public static void cave(Player p) {
+        for(int i = 0; i < 7; i++) {
+            if(Math.random() < 0.8) {
+                NPCLoader.spawnNPC(i, npcs[0]);
+            } else {
+                NPCLoader.spawnNPC(i, npcs[1]);
+            }
+        }
+        NPCLoader.whoSpawned();
         int pX = 0; 
         int pY = 0;
         int caveXEnd = 5; 
